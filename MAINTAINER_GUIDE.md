@@ -1,64 +1,26 @@
-## Maintainer guide: rules, plugins, and without presets
+## Maintainer guide: shared Prettier config
 
-### 1) Add or edit rules
+### 1) Update formatting options
 
-1. Open `eslint.config.mjs`.
-2. Locate the nearest matching config block by `files`/`name`.
-3. Prefer updating existing scoped blocks over adding broad global rules.
-4. Use actionable comments for non-obvious rule decisions.
-5. If a rule needs type info, keep it in a TypeScript parser block with project service or explicit `project` paths.
+1. Edit `.prettierrc` and mirror the same JSON in `.prettierrc.json`.
+2. Prefer updating existing `overrides` entries over adding redundant ones.
+3. Keep plugin-dependent options inside the relevant file-pattern override.
+4. Preserve cross-platform defaults (for example `endOfLine: "lf"` in overrides where needed).
+5. Keep key ordering stable in `.prettierrc.json` so repo linting stays warning-free.
 
-### 2) Add a new plugin package
+### 2) Add or remove Prettier plugins
 
-1. Add the plugin package to `dependencies` in `package.json`.
-2. Import it in `eslint.config.mjs`.
-3. Register it inside the appropriate `plugins` map.
-4. Add/adjust rules using that plugin's namespace.
-5. Decide whether the plugin should have a dedicated `without*` preset.
+1. Update plugin references in `.prettierrc`.
+2. Keep plugin packages in `dependencies` (runtime for consuming projects), not only `devDependencies`.
+3. Re-run package and test validation to confirm plugin resolution still works.
 
-### 3) Add a new `without*` preset
+### 3) Keep package exports/types aligned
 
-Use this when consumers need to dogfood local plugin builds or disable packaged plugin rules.
+1. `preset.mjs` should keep exporting the shared config as both default and named `config`.
+2. `index.d.ts` should continue typing the export as `Readonly<prettier.Config>`.
+3. Keep `package.json` `exports`, `main`, `types`, and `files` in sync.
 
-1. In `eslint.config.mjs`, add a preset entry under exported `configs`:
-
-```js
-withoutMyPlugin: createConfig({
-    plugins: {
-        "my-plugin": false,
-    },
-}),
-```
-
-2. In `preset.mjs`, re-export the new preset from `sharedConfigs`.
-3. In `index.d.ts`, add the preset property to `Nick2Bad4UEslintConfigPresets`.
-4. In `test/preset.test.ts`, add the preset/plugin namespace pair to the `it.each` matrix.
-5. In `README.md`, document the new preset in the presets list.
-
-### 4) Dogfood a local plugin in a consumer repo
-
-Use the matching `without*` preset, then append your local plugin registration and rules:
-
-```js
-import nick2bad4u from "eslint-config-nick2bad4u";
-import localPlugin from "./plugin.mjs";
-
-export default [
-    ...nick2bad4u.configs.withoutMyPlugin,
-    {
-        files: ["src/**/*.{ts,tsx,mts,cts,js,mjs,cjs}"],
-        name: "Local MyPlugin rules",
-        plugins: {
-            "my-plugin": localPlugin,
-        },
-        rules: {
-            ...localPlugin.configs.recommended.rules,
-        },
-    },
-];
-```
-
-### 5) Validation checklist (required)
+### 4) Validation checklist (required)
 
 Run before pushing:
 
