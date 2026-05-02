@@ -115,7 +115,7 @@ npm uninstall $sharedPrettierDeps --force
 
 # 2) Install shared config + Prettier peer
 Write-Host "📥 Installing prettier + prettier-config-nick2bad4u..."
-npm install --save-dev prettier prettier-config-nick2bad4u
+npm install --save-dev prettier prettier-config-nick2bad4u --force
 
 # 3) Replace local Prettier config with shared import-based config
 Write-Host "📝 Writing prettier.config.mjs..."
