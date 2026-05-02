@@ -25,9 +25,9 @@ The package is ESM-first and exports the config from `preset.mjs`.
 ### Option 2: prettier.config.mjs
 
 ```js
-import config from "prettier-config-nick2bad4u";
+import prettierConfig from "prettier-config-nick2bad4u";
 
-export default config;
+export default prettierConfig;
 ```
 
 ### Option 2a: named import
@@ -41,10 +41,10 @@ export default config;
 ### Option 3: extend with local overrides
 
 ```js
-import config from "prettier-config-nick2bad4u";
+import prettierConfig from "prettier-config-nick2bad4u";
 
 export default {
-    ...config,
+    ...prettierConfig,
     printWidth: 100,
 };
 ```
