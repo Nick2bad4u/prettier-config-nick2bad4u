@@ -59,7 +59,7 @@ export default {
 
 - Default export: the shared Prettier config object
 - Named export: `config`
-- Published files: `.prettierrc`, `.prettierrc.json`, `preset.mjs`, and `index.d.ts`
+- Published files: `prettier.config.mjs`, `preset.mjs`, and `index.d.ts`
 
 ## Development checks
 

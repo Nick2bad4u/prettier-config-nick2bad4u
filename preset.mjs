@@ -1,4 +1,4 @@
-import sharedPrettierConfig from "./.prettierrc.json" with { type: "json" };
+import sharedPrettierConfig from "./prettier.config.mjs";
 
 /** Named export — use when you want to spread or inspect individual options. */
 export const config = Object.freeze(sharedPrettierConfig);

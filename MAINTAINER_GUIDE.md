@@ -2,15 +2,15 @@
 
 ### 1) Update formatting options
 
-1. Edit `.prettierrc` and mirror the same JSON in `.prettierrc.json`.
+1. Edit `prettier.config.mjs`.
 2. Prefer updating existing `overrides` entries over adding redundant ones.
 3. Keep plugin-dependent options inside the relevant file-pattern override.
 4. Preserve cross-platform defaults (for example `endOfLine: "lf"` in overrides where needed).
-5. Keep key ordering stable in `.prettierrc.json` so repo linting stays warning-free.
+5. Keep key ordering stable and plugin lists explicit so repo linting stays warning-free.
 
 ### 2) Add or remove Prettier plugins
 
-1. Update plugin references in `.prettierrc`.
+1. Update plugin references in `prettier.config.mjs`.
 2. Keep plugin packages in `dependencies` (runtime for consuming projects), not only `devDependencies`.
 3. Re-run package and test validation to confirm plugin resolution still works.
 

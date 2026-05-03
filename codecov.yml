@@ -25,7 +25,7 @@ component_management:
         - component_id: package_entry
           name: "Package entrypoint"
           paths:
-              - .prettierrc
+              - prettier.config.mjs
               - preset.mjs
 
 coverage:
@@ -46,19 +46,19 @@ flags:
     os-linux:
         carryforward: true
         paths:
-            - .prettierrc
+            - prettier.config.mjs
             - preset.mjs
 
     os-macos:
         carryforward: true
         paths:
-            - .prettierrc
+            - prettier.config.mjs
             - preset.mjs
 
     os-windows:
         carryforward: true
         paths:
-            - .prettierrc
+            - prettier.config.mjs
             - preset.mjs
 
 ignore:

@@ -30,8 +30,8 @@
     ],
     "extends": "./tsconfig.json",
     "include": [
-        ".prettierrc.json",
         "index.d.ts",
+        "prettier.config.mjs",
         "eslint.config.mjs",
         "preset.mjs"
     ]
