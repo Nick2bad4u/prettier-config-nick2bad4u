@@ -70,7 +70,7 @@
         "lint:yaml:fix": "npm run lint:yaml -- --fix",
         "package:check": "npm pack --dry-run",
         "release:check": "npm run release:verify",
-        "release:verify": "npm run build && npm run lint:all:fix && npm run lint:package:fix && npm run test:coverage && npm run types:update",
+        "release:verify": "npm run build && npm run lint:all:fix && npm run lint:package:fix && npm run test:coverage",
         "sync:node-version-files": "node scripts/sync-node-version-files.mjs",
         "sync:peer-prettier-range": "node scripts/sync-peer-prettier-range.mjs",
         "test": "vitest run",

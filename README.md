@@ -49,6 +49,65 @@ export default {
 };
 ```
 
+### Option 4: create config with extensionless file customization
+
+Use `createConfig` when you want to add or replace extensionless JSON/INI files
+without duplicating override internals.
+
+#### Merge your files with package defaults
+
+```js
+import { createConfig } from "prettier-config-nick2bad4u";
+
+export default createConfig({
+    extensionlessJsonFiles: ["**/.my-json-rc"],
+    extensionlessIniFiles: ["**/.my-ini-rc"],
+});
+```
+
+#### Replace package defaults with your own lists
+
+```js
+import { createConfig } from "prettier-config-nick2bad4u";
+
+export default createConfig({
+    extensionlessJsonFiles: ["**/.custom-json-rc"],
+    extensionlessIniFiles: ["**/.custom-ini-rc"],
+    replaceDefaultExtensionlessJsonFiles: true,
+    replaceDefaultExtensionlessIniFiles: true,
+});
+```
+
+#### Reuse exported default lists/options
+
+```js
+import {
+    createConfig,
+    defaultExtensionlessIniFiles,
+    defaultExtensionlessJsonFiles,
+    extensionlessIniOptions,
+    extensionlessJsonOptions,
+} from "prettier-config-nick2bad4u";
+
+const myJsonFiles = [
+    ...defaultExtensionlessJsonFiles,
+    "**/.my-extra-json-rc",
+];
+
+export default createConfig({
+    extensionlessJsonFiles: myJsonFiles,
+    replaceDefaultExtensionlessJsonFiles: true,
+});
+
+// You can also spread option presets if you build your own override blocks:
+void extensionlessIniOptions;
+void extensionlessJsonOptions;
+```
+
+> `.editorconfig` and `.gitconfig` are treated as INI-like files.
+> `.browserlistrc` is **not** INI/properties syntax, so it is not included in
+> the extensionless INI defaults.
+
 ## What this config includes
 
 - Base formatting options (quotes, semicolons, trailing commas, tab width, etc.)
@@ -59,6 +118,7 @@ export default {
 
 - Default export: the shared Prettier config object
 - Named export: `config`
+- Named exports: `createConfig`, `defaultExtensionlessJsonFiles`, `defaultExtensionlessIniFiles`, `extensionlessJsonOptions`, `extensionlessIniOptions`
 - Published files: `prettier.config.mjs`, `preset.mjs`, and `index.d.ts`
 
 ## Development checks
