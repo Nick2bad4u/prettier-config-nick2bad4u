@@ -52,7 +52,7 @@ export default {
 ## What this config includes
 
 - Base formatting options (quotes, semicolons, trailing commas, tab width, etc.)
-- File-specific overrides for JS/TS, Markdown, JSON, TOML, HTML, INI, SQL, shell, and properties files
+- File-specific overrides for JS/TS, Markdown, JSON, TOML, HTML, XML, PowerShell, INI, SQL, shell, and properties files
 - Plugin-backed formatting for JSDoc, sorted JSON/package.json, and additional language formats
 
 ## Package surface

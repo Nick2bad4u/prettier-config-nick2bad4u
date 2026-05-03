@@ -153,6 +153,23 @@ const sharedPrettierConfig = {
             },
         },
         {
+            files: [
+                "*.xml",
+                "*.xsd",
+                "*.xsl",
+                "*.xaml",
+            ],
+            options: {
+                endOfLine: "lf",
+                plugins: [
+                    "prettier-plugin-multiline-arrays",
+                    "@prettier/plugin-xml",
+                ],
+                tabWidth: 2,
+                useTabs: false,
+            },
+        },
+        {
             files: ["*.json", "**/.htmlhintrc"],
             options: {
                 endOfLine: "lf",

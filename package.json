@@ -82,6 +82,7 @@
         "verify": "npm run release:verify"
     },
     "dependencies": {
+        "@prettier/plugin-xml": "^3.4.2",
         "@softonus/prettier-plugin-duplicate-remover": "^1.1.2",
         "npm-check-updates": "^22.1.0",
         "prettier-plugin-ini": "^1.3.0",
