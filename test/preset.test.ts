@@ -18,7 +18,7 @@ describe("prettier-config-nick2bad4u", () => {
     });
 
     it("contains plugin-backed overrides for common file types", () => {
-        expect.assertions(4);
+        expect.assertions(6);
 
         const overrideFiles = (config.overrides ?? []).map((override) =>
             JSON.stringify(override.files)
@@ -36,5 +36,36 @@ describe("prettier-config-nick2bad4u", () => {
         expect(
             overrideFiles.some((files) => files.includes("*.sh"))
         ).toBeTruthy();
+        expect(
+            overrideFiles.some((files) => files.includes("*.php"))
+        ).toBeTruthy();
+        expect(
+            overrideFiles.some((files) => files.includes("CODEOWNERS"))
+        ).toBeTruthy();
+    });
+
+    it("configures plugin-specific options only where they add value", () => {
+        expect.assertions(4);
+
+        const phpOverride = (config.overrides ?? []).find(
+            (override) => override.files === "*.php"
+        );
+        const codeownersOverride = (config.overrides ?? []).find(
+            (override) =>
+                Array.isArray(override.files) &&
+                override.files.includes("CODEOWNERS") &&
+                override.files.includes("**/CODEOWNERS")
+        );
+
+        expect(phpOverride?.options?.["phpVersion"]).toBe("auto");
+        expect(phpOverride?.options?.plugins).toStrictEqual([
+            "prettier-plugin-multiline-arrays",
+            "@prettier/plugin-php",
+        ]);
+        expect(codeownersOverride?.options?.plugins).toStrictEqual([
+            "prettier-plugin-multiline-arrays",
+            "prettier-plugin-codeowners",
+        ]);
+        expect(codeownersOverride?.options?.endOfLine).toBe("lf");
     });
 });

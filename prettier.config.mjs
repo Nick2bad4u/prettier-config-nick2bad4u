@@ -170,6 +170,18 @@ const sharedPrettierConfig = {
             },
         },
         {
+            files: "*.php",
+            options: {
+                endOfLine: "lf",
+                phpVersion: "auto",
+                plugins: [
+                    "prettier-plugin-multiline-arrays",
+                    "@prettier/plugin-php",
+                ],
+                useTabs: false,
+            },
+        },
+        {
             files: ["*.json", "**/.htmlhintrc"],
             options: {
                 endOfLine: "lf",
@@ -205,6 +217,17 @@ const sharedPrettierConfig = {
                 plugins: [
                     "prettier-plugin-multiline-arrays",
                     "prettier-plugin-powershell",
+                ],
+                useTabs: false,
+            },
+        },
+        {
+            files: ["CODEOWNERS", "**/CODEOWNERS"],
+            options: {
+                endOfLine: "lf",
+                plugins: [
+                    "prettier-plugin-multiline-arrays",
+                    "prettier-plugin-codeowners",
                 ],
                 useTabs: false,
             },
