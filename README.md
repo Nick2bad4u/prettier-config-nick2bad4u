@@ -1,5 +1,7 @@
 # prettier-config-nick2bad4u
 
+[![npm license.](https://flat.badgen.net/npm/license/prettier-config-nick2bad4u?color=purple)](https://github.com/Nick2bad4u/prettier-config-nick2bad4u/blob/main/LICENSE) [![npm total downloads.](https://flat.badgen.net/npm/dt/prettier-config-nick2bad4u?color=pink)](https://www.npmjs.com/package/prettier-config-nick2bad4u) [![latest GitHub release.](https://flat.badgen.net/github/release/Nick2bad4u/prettier-config-nick2bad4u?color=cyan)](https://github.com/Nick2bad4u/prettier-config-nick2bad4u/releases) [![GitHub stars.](https://flat.badgen.net/github/stars/Nick2bad4u/prettier-config-nick2bad4u?color=yellow)](https://github.com/Nick2bad4u/prettier-config-nick2bad4u/stargazers) [![GitHub forks.](https://flat.badgen.net/github/forks/Nick2bad4u/prettier-config-nick2bad4u?color=green)](https://github.com/Nick2bad4u/prettier-config-nick2bad4u/forks) [![GitHub open issues.](https://flat.badgen.net/github/open-issues/Nick2bad4u/prettier-config-nick2bad4u?color=red)](https://github.com/Nick2bad4u/prettier-config-nick2bad4u/issues) [![codecov.](https://codecov.io/gh/Nick2bad4u/prettier-config-nick2bad4u/branch/main/graph/badge.svg)](https://codecov.io/gh/Nick2bad4u/prettier-config-nick2bad4u)
+
 Shared Prettier config for Nick2bad4u projects.
 
 ## Install
@@ -108,6 +110,113 @@ void extensionlessJsonOptions;
 > `.browserlistrc` is **not** INI/properties syntax, so it is not included in
 > the extensionless INI defaults.
 
+### Option 5: inherit existing override options for specific files
+
+Use `inheritedOverrides` when you want one file (or file group) to keep the
+same plugin/options behavior from a base override and only change a small delta
+(for example `printWidth`).
+
+```js
+import { createConfig } from "prettier-config-nick2bad4u";
+
+export default createConfig({
+    inheritedOverrides: [
+        {
+            inheritFrom: "*.ts",
+            files: "src/shared-config.ts",
+            options: {
+                printWidth: 140,
+            },
+        },
+    ],
+});
+```
+
+This keeps TypeScript override behavior (plugins and related options) and only
+overrides `printWidth` for `src/shared-config.ts`.
+
+### Option 6: use exported common override option presets
+
+For advanced local configs, you can directly use option presets exported by the
+package.
+
+```js
+import prettierConfig, {
+    jsonOverrideOptions,
+    typescriptOverrideOptions,
+} from "prettier-config-nick2bad4u";
+
+export default {
+    ...prettierConfig,
+    overrides: [
+        ...(prettierConfig.overrides ?? []),
+        {
+            files: "src/shared-config.ts",
+            options: {
+                ...typescriptOverrideOptions,
+                printWidth: 140,
+            },
+        },
+        {
+            files: "config/custom.json",
+            options: {
+                ...jsonOverrideOptions,
+                printWidth: 120,
+            },
+        },
+    ],
+};
+```
+
+Available named override option presets:
+
+- `typescriptOverrideOptions`
+- `jsonOverrideOptions`
+- `packageJsonOverrideOptions`
+- `htmlOverrideOptions`
+- `userJavaScriptOverrideOptions`
+- `markdownOverrideOptions`
+- `mdxOverrideOptions`
+- `tomlOverrideOptions`
+- `xmlOverrideOptions`
+- `phpOverrideOptions`
+- `sqlOverrideOptions`
+- `powershellOverrideOptions`
+- `codeownersOverrideOptions`
+- `shellOverrideOptions`
+- `propertiesOverrideOptions`
+- `iniOverrideOptions`
+- `extensionlessJsonOptions`
+- `extensionlessIniOptions`
+
+### Option 7: legacy/manual override inheritance (kept for compatibility)
+
+If you prefer the original manual discovery approach, this still works:
+
+```js
+import prettierConfig from "prettier-config-nick2bad4u";
+
+const tsOverride = (prettierConfig.overrides ?? []).find(
+    (override) =>
+        Array.isArray(override.files) &&
+        override.files.includes("*.ts")
+);
+
+export default {
+    ...prettierConfig,
+    overrides: [
+        ...(prettierConfig.overrides ?? []),
+        {
+            files: "src/shared-config.ts",
+            options: {
+                ...(tsOverride?.options ?? {}),
+                printWidth: 140,
+            },
+        },
+    ],
+};
+```
+
 ## What this config includes
 
 - Base formatting options (quotes, semicolons, trailing commas, tab width, etc.)
@@ -118,7 +227,7 @@ void extensionlessJsonOptions;
 
 - Default export: the shared Prettier config object
 - Named export: `config`
-- Named exports: `createConfig`, `defaultExtensionlessJsonFiles`, `defaultExtensionlessIniFiles`, `extensionlessJsonOptions`, `extensionlessIniOptions`
+- Named exports: `createConfig`, `defaultExtensionlessJsonFiles`, `defaultExtensionlessIniFiles`, `extensionlessJsonOptions`, `extensionlessIniOptions`, `typescriptOverrideOptions`, `jsonOverrideOptions`, `packageJsonOverrideOptions`, `htmlOverrideOptions`, `userJavaScriptOverrideOptions`, `markdownOverrideOptions`, `mdxOverrideOptions`, `tomlOverrideOptions`, `xmlOverrideOptions`, `phpOverrideOptions`, `sqlOverrideOptions`, `powershellOverrideOptions`, `codeownersOverrideOptions`, `shellOverrideOptions`, `propertiesOverrideOptions`, `iniOverrideOptions`
 - Published files: `prettier.config.mjs`, `preset.mjs`, and `index.d.ts`
 
 ## Development checks

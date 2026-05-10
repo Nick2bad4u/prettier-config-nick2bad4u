@@ -1,10 +1,26 @@
 import prettierConfig, {
+    codeownersOverrideOptions,
     config,
     createConfig,
     defaultExtensionlessIniFiles,
     defaultExtensionlessJsonFiles,
     extensionlessIniOptions,
     extensionlessJsonOptions,
+    htmlOverrideOptions,
+    iniOverrideOptions,
+    jsonOverrideOptions,
+    markdownOverrideOptions,
+    mdxOverrideOptions,
+    packageJsonOverrideOptions,
+    phpOverrideOptions,
+    powershellOverrideOptions,
+    propertiesOverrideOptions,
+    shellOverrideOptions,
+    sqlOverrideOptions,
+    tomlOverrideOptions,
+    typescriptOverrideOptions,
+    userJavaScriptOverrideOptions,
+    xmlOverrideOptions,
 } from "prettier-config-nick2bad4u";
 import { describe, expect, it } from "vitest";
 
@@ -17,7 +33,7 @@ describe("prettier-config-nick2bad4u", () => {
     });
 
     it("exports reusable extensionless file defaults and option presets", () => {
-        expect.assertions(9);
+        expect.assertions(27);
 
         expect(defaultExtensionlessJsonFiles).toContain(
             "**/.all-contributorsrc"
@@ -30,6 +46,42 @@ describe("prettier-config-nick2bad4u", () => {
         expect(defaultExtensionlessIniFiles).not.toContain("**/.browserlistrc");
         expect(extensionlessIniOptions.parser).toBe("ini");
         expect(extensionlessJsonOptions.parser).toBe("json");
+        expect(typescriptOverrideOptions.plugins).toContain(
+            "prettier-plugin-merge"
+        );
+        expect(typescriptOverrideOptions["multilineArraysWrapThreshold"]).toBe(
+            2
+        );
+        expect(jsonOverrideOptions.plugins).toContain(
+            "prettier-plugin-sort-json"
+        );
+        expect(jsonOverrideOptions["jsonRecursiveSort"]).toBeFalsy();
+        expect(packageJsonOverrideOptions.plugins).toContain(
+            "prettier-plugin-packagejson"
+        );
+        expect(htmlOverrideOptions.plugins).toContain(
+            "@softonus/prettier-plugin-duplicate-remover"
+        );
+        expect(userJavaScriptOverrideOptions.printWidth).toBe(80);
+        expect(markdownOverrideOptions.plugins).toContain(
+            "prettier-plugin-jsdoc"
+        );
+        expect(mdxOverrideOptions.printWidth).toBe(100);
+        expect(tomlOverrideOptions.plugins).toContain("prettier-plugin-toml");
+        expect(xmlOverrideOptions.plugins).toContain("@prettier/plugin-xml");
+        expect(phpOverrideOptions.plugins).toContain("@prettier/plugin-php");
+        expect(sqlOverrideOptions.plugins).toContain("prettier-plugin-sql");
+        expect(powershellOverrideOptions.plugins).toContain(
+            "prettier-plugin-powershell"
+        );
+        expect(codeownersOverrideOptions.plugins).toContain(
+            "prettier-plugin-codeowners"
+        );
+        expect(shellOverrideOptions.plugins).toContain("prettier-plugin-sh");
+        expect(propertiesOverrideOptions.plugins).toContain(
+            "prettier-plugin-properties"
+        );
+        expect(iniOverrideOptions.plugins).toContain("prettier-plugin-ini");
     });
 
     it("exposes expected top-level formatting options", () => {
@@ -198,5 +250,56 @@ describe("prettier-config-nick2bad4u", () => {
             "**/.custom-json-rc",
         ]);
         expect(replacedIniOverride?.files).toStrictEqual(["**/.custom-ini-rc"]);
+    });
+
+    it("lets consumers inherit an existing override and customize only deltas", () => {
+        expect.assertions(8);
+
+        const inheritedConfig = createConfig({
+            inheritedOverrides: [
+                {
+                    files: "src/shared-config.ts",
+                    inheritFrom: "*.ts",
+                    options: {
+                        printWidth: 140,
+                    },
+                },
+            ],
+        });
+        const inheritedTsFileOverride = (inheritedConfig.overrides ?? []).find(
+            (override) => override.files === "src/shared-config.ts"
+        );
+
+        expect(inheritedTsFileOverride).toBeDefined();
+        expect(inheritedTsFileOverride?.options?.printWidth).toBe(140);
+        expect(inheritedTsFileOverride?.options?.plugins).toContain(
+            "prettier-plugin-multiline-arrays"
+        );
+        expect(inheritedTsFileOverride?.options?.plugins).toContain(
+            "prettier-plugin-merge"
+        );
+        expect(
+            inheritedTsFileOverride?.options?.["multilineArraysWrapThreshold"]
+        ).toBe(2);
+        expect(inheritedTsFileOverride?.options?.["tsdoc"]).toBeTruthy();
+        expect(inheritedTsFileOverride?.options?.useTabs).toBeFalsy();
+        expect(inheritedTsFileOverride?.options?.endOfLine).toBe("lf");
+    });
+
+    it("throws an explicit error when inherited override source cannot be found", () => {
+        expect.assertions(1);
+
+        expect(() => {
+            createConfig({
+                inheritedOverrides: [
+                    {
+                        files: "src/whatever.ts",
+                        inheritFrom: "*.definitely-not-a-base-override",
+                    },
+                ],
+            });
+        }).toThrow(
+            'Unable to inherit override options: no base override found for "*.definitely-not-a-base-override".'
+        );
     });
 });
