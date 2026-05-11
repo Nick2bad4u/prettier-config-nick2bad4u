@@ -189,7 +189,59 @@ Available named override option presets:
 - `extensionlessJsonOptions`
 - `extensionlessIniOptions`
 
-### Option 7: legacy/manual override inheritance (kept for compatibility)
+### Option 7: full manual options block (most explicit, zero magic)
+
+The simplest and most robust approach when `inheritedOverrides` doesn't behave
+as expected: just paste the full options block directly. Every plugin and option
+is explicitly present, so there is nothing implicit to break.
+
+```js
+import prettierConfig from "prettier-config-nick2bad4u";
+
+export default {
+    ...prettierConfig,
+    overrides: [
+        ...(prettierConfig.overrides ?? []),
+        {
+            files: "src/shared-config.ts",
+            options: {
+                endOfLine: "lf",
+                jsdocBracketSpacing: false,
+                jsdocCapitalizeDescription: true,
+                jsdocCommentLineStrategy: "keep",
+                jsdocDescriptionTag: false,
+                jsdocDescriptionWithDot: false,
+                jsdocEmptyCommentStrategy: "keep",
+                jsdocKeepUnParseAbleExampleIndent: false,
+                jsdocLineWrappingStyle: "greedy",
+                jsdocPreferCodeFences: true,
+                jsdocPrintWidth: 80,
+                jsdocSeparateReturnsFromParam: true,
+                jsdocSeparateTagGroups: true,
+                jsdocSpaces: 1,
+                jsdocVerticalAlignment: false,
+                multilineArraysWrapThreshold: 2,
+                plugins: [
+                    "@softonus/prettier-plugin-duplicate-remover",
+                    "prettier-plugin-multiline-arrays",
+                    "prettier-plugin-jsdoc",
+                    "prettier-plugin-interpolated-html-tags",
+                    "prettier-plugin-merge",
+                ],
+                printWidth: 140, // your override
+                tsdoc: true,
+                useTabs: false,
+            },
+        },
+    ],
+};
+```
+
+This is the recommended fallback if you ever find plugin behavior not applying
+correctly: copy the relevant options block from the named presets above and
+paste it in verbatim.
+
+### Option 8: legacy/manual override inheritance (kept for compatibility)
 
 If you prefer the original manual discovery approach, this still works:
 
