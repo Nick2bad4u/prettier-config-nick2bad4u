@@ -43,7 +43,7 @@ export const config = Object.freeze(sharedPrettierConfig);
  *     }>
  * ) => import("prettier").Config}
  */
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type, @typescript-eslint/explicit-module-boundary-types -- JS file uses explicit JSDoc function typing.
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types -- JSDoc return typing is used for this JS module API.
 export const createConfig = (options = {}) => createConfigInternal(options);
 
 /** Default extensionless INI-like globs used by this shared configuration. */

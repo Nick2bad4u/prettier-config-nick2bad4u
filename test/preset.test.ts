@@ -32,8 +32,8 @@ describe("prettier-config-nick2bad4u", () => {
         expect(createConfig()).toStrictEqual(config);
     });
 
-    it("exports reusable extensionless file defaults and option presets", () => {
-        expect.assertions(27);
+    it("exports reusable extensionless file defaults", () => {
+        expect.assertions(7);
 
         expect(defaultExtensionlessJsonFiles).toContain(
             "**/.all-contributorsrc"
@@ -44,6 +44,11 @@ describe("prettier-config-nick2bad4u", () => {
         expect(defaultExtensionlessIniFiles).toContain("**/.editorconfig");
         expect(defaultExtensionlessIniFiles).toContain("**/.gitconfig");
         expect(defaultExtensionlessIniFiles).not.toContain("**/.browserlistrc");
+    });
+
+    it("exports reusable override option presets", () => {
+        expect.assertions(20);
+
         expect(extensionlessIniOptions.parser).toBe("ini");
         expect(extensionlessJsonOptions.parser).toBe("json");
         expect(typescriptOverrideOptions.plugins).toContain(

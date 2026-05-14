@@ -31,6 +31,8 @@ const nvmrcFilePath = fileURLToPath(new URL("../.nvmrc", import.meta.url));
  * @param {unknown} version
  *
  * @returns {string}
+ *
+ * @throws {TypeError} When the input is not a string or does not match x.y.z.
  */
 const normalizeNodeVersion = (version) => {
     if (typeof version !== "string") {
@@ -58,21 +60,19 @@ const normalizeNodeVersion = (version) => {
 const isRecord = (value) => typeof value === "object" && value !== null;
 
 /**
- * Parse command-line arguments.
+ * Parse command-line arguments for `--check`, `--check-current`, and
+ * `--version`.
  *
- * Supported options:
- *
- * - `--check`: validate file existence and synchronization only
- * - `--check-current`: validate files match current runtime version exactly
- * - `--version x.y.z` or `--version=x.y.z`: explicit version override
- *
- * @param {readonly string[]} argumentList
+ * @param {readonly string[]} argumentList - The command-line arguments to
+ *   parse.
  *
  * @returns {{
  *     checkOnly: boolean;
  *     checkCurrent: boolean;
  *     explicitVersion: string | null;
  * }}
+ *
+ * @throws {TypeError} When an argument is unknown or uses an invalid shape.
  */
 const parseArguments = (argumentList) => {
     /** @type {boolean} */
@@ -204,6 +204,9 @@ const compareExactVersions = (leftVersion, rightVersion) => {
  * @param {string | null} minimumEngineVersion
  *
  * @returns {void}
+ *
+ * @throws {RangeError} When preferredVersion is lower than
+ *   minimumEngineVersion.
  */
 const assertPreferredVersionSupported = (
     preferredVersion,
@@ -230,6 +233,8 @@ const assertPreferredVersionSupported = (
  * @param {string} filePath
  *
  * @returns {Promise<string | null>}
+ *
+ * @throws {Error} When file reading fails for reasons other than missing files.
  */
 const readOptionalVersionFile = async (filePath) => {
     try {
