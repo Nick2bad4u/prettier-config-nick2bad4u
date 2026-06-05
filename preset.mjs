@@ -1,4 +1,5 @@
 import sharedPrettierConfig, {
+    astroOverrideOptions as astroOverrideOptionsInternal,
     codeownersOverrideOptions as codeownersOverrideOptionsInternal,
     createConfig as createConfigInternal,
     defaultExtensionlessIniFiles as defaultExtensionlessIniFilesInternal,
@@ -100,6 +101,11 @@ export const markdownOverrideOptions = Object.freeze({
 /** Shared option preset used by MDX override blocks. */
 export const mdxOverrideOptions = Object.freeze({
     ...mdxOverrideOptionsInternal,
+});
+
+/** Shared option preset used by Astro override blocks. */
+export const astroOverrideOptions = Object.freeze({
+    ...astroOverrideOptionsInternal,
 });
 
 /** Shared option preset used by YAML override blocks. */

@@ -87,6 +87,7 @@
         "@prettier/plugin-php": "^0.25.0",
         "@prettier/plugin-xml": "^3.4.2",
         "@softonus/prettier-plugin-duplicate-remover": "^1.1.2",
+        "prettier-plugin-astro": "^0.14.1",
         "prettier-plugin-codeowners": "^0.1.1",
         "prettier-plugin-ini": "^1.3.0",
         "prettier-plugin-interpolated-html-tags": "^2.0.1",

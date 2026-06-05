@@ -1,5 +1,6 @@
 import prettier, { type Config } from "prettier";
 import prettierConfig, {
+    astroOverrideOptions,
     codeownersOverrideOptions,
     config,
     createConfig,
@@ -164,6 +165,29 @@ describe("prettier-config-nick2bad4u", () => {
         ]);
     });
 
+    it("locks Astro plugin formatting options", () => {
+        expect.assertions(5);
+
+        expect(astroOverrideOptions.parser).toBe("astro");
+        expect(astroOverrideOptions.plugins).toStrictEqual([
+            "prettier-plugin-astro",
+        ]);
+        expect(astroOverrideOptions.printWidth).toBe(100);
+        expect(astroOverrideOptions.tabWidth).toBe(4);
+        expect(astroOverrideOptions.useTabs).toBe(false);
+    });
+
+    it("formats Astro files with the Astro parser only in Astro overrides", async () => {
+        expect.assertions(1);
+
+        await expect(
+            prettier.format("<h1>{title}</h1>\n", {
+                ...astroOverrideOptions,
+                filepath: "sample.astro",
+            })
+        ).resolves.toBe("<h1>{title}</h1>\n");
+    });
+
     it("formats YAML with quoted keys and string values", async () => {
         expect.assertions(1);
 
@@ -185,7 +209,7 @@ describe("prettier-config-nick2bad4u", () => {
     });
 
     it("contains plugin-backed overrides for common file types", () => {
-        expect.assertions(9);
+        expect.assertions(10);
 
         const overrideFiles = (config.overrides ?? []).map((override) =>
             JSON.stringify(override.files)
@@ -198,6 +222,9 @@ describe("prettier-config-nick2bad4u", () => {
             true
         );
         expect(overrideFiles.some((files) => files.includes("*.toml"))).toBe(
+            true
+        );
+        expect(overrideFiles.some((files) => files.includes("*.astro"))).toBe(
             true
         );
         expect(overrideFiles.some((files) => files.includes(".yamllint"))).toBe(

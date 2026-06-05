@@ -268,14 +268,14 @@ export default {
 ## What this config includes
 
 - Base formatting options (quotes, semicolons, trailing commas, tab width, etc.)
-- File-specific overrides for JS/TS, Markdown, JSON, TOML, HTML, XML, PowerShell, INI, SQL, shell, and properties files
+- File-specific overrides for JS/TS, Astro, Markdown, JSON, TOML, HTML, XML, PowerShell, INI, SQL, shell, and properties files
 - Plugin-backed formatting for JSDoc, sorted JSON/package.json, and additional language formats
 
 ## Package surface
 
 - Default export: the shared Prettier config object
 - Named export: `config`
-- Named exports: `createConfig`, `defaultExtensionlessJsonFiles`, `defaultExtensionlessIniFiles`, `extensionlessJsonOptions`, `extensionlessIniOptions`, `typescriptOverrideOptions`, `jsonOverrideOptions`, `packageJsonOverrideOptions`, `htmlOverrideOptions`, `userJavaScriptOverrideOptions`, `markdownOverrideOptions`, `mdxOverrideOptions`, `yamlOverrideOptions`, `tomlOverrideOptions`, `xmlOverrideOptions`, `phpOverrideOptions`, `sqlOverrideOptions`, `powershellOverrideOptions`, `codeownersOverrideOptions`, `shellOverrideOptions`, `propertiesOverrideOptions`, `iniOverrideOptions`
+- Named exports: `createConfig`, `defaultExtensionlessJsonFiles`, `defaultExtensionlessIniFiles`, `extensionlessJsonOptions`, `extensionlessIniOptions`, `typescriptOverrideOptions`, `jsonOverrideOptions`, `packageJsonOverrideOptions`, `htmlOverrideOptions`, `userJavaScriptOverrideOptions`, `markdownOverrideOptions`, `mdxOverrideOptions`, `astroOverrideOptions`, `yamlOverrideOptions`, `tomlOverrideOptions`, `xmlOverrideOptions`, `phpOverrideOptions`, `sqlOverrideOptions`, `powershellOverrideOptions`, `codeownersOverrideOptions`, `shellOverrideOptions`, `propertiesOverrideOptions`, `iniOverrideOptions`
 - Published files: `prettier.config.mjs`, `preset.mjs`, and `index.d.ts`
 
 ## Development checks

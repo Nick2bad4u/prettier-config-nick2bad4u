@@ -172,6 +172,16 @@ export const mdxOverrideOptions = Object.freeze({
 });
 
 /** @type {Readonly<Partial<import("prettier").Config>>} */
+export const astroOverrideOptions = Object.freeze({
+    endOfLine: "lf",
+    parser: "astro",
+    plugins: ["prettier-plugin-astro"],
+    printWidth: 100,
+    tabWidth: 4,
+    useTabs: false,
+});
+
+/** @type {Readonly<Partial<import("prettier").Config>>} */
 export const yamlOverrideOptions = Object.freeze({
     endOfLine: "lf",
     parser: "yaml",
@@ -375,6 +385,10 @@ export const createConfig = (options = {}) => {
         {
             files: "*.mdx",
             options: mdxOverrideOptions,
+        },
+        {
+            files: "*.astro",
+            options: astroOverrideOptions,
         },
         {
             files: [
