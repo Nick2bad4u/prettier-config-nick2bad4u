@@ -20,7 +20,7 @@ The package is ESM-first and exports the config from `preset.mjs`.
 
 ```json
 {
-    "prettier": "prettier-config-nick2bad4u"
+ "prettier": "prettier-config-nick2bad4u"
 }
 ```
 
@@ -46,8 +46,8 @@ export default config;
 import prettierConfig from "prettier-config-nick2bad4u";
 
 export default {
-    ...prettierConfig,
-    printWidth: 100,
+ ...prettierConfig,
+ printWidth: 100,
 };
 ```
 
@@ -62,8 +62,8 @@ without duplicating override internals.
 import { createConfig } from "prettier-config-nick2bad4u";
 
 export default createConfig({
-    extensionlessJsonFiles: ["**/.my-json-rc"],
-    extensionlessIniFiles: ["**/.my-ini-rc"],
+ extensionlessJsonFiles: ["**/.my-json-rc"],
+ extensionlessIniFiles: ["**/.my-ini-rc"],
 });
 ```
 
@@ -73,10 +73,10 @@ export default createConfig({
 import { createConfig } from "prettier-config-nick2bad4u";
 
 export default createConfig({
-    extensionlessJsonFiles: ["**/.custom-json-rc"],
-    extensionlessIniFiles: ["**/.custom-ini-rc"],
-    replaceDefaultExtensionlessJsonFiles: true,
-    replaceDefaultExtensionlessIniFiles: true,
+ extensionlessJsonFiles: ["**/.custom-json-rc"],
+ extensionlessIniFiles: ["**/.custom-ini-rc"],
+ replaceDefaultExtensionlessJsonFiles: true,
+ replaceDefaultExtensionlessIniFiles: true,
 });
 ```
 
@@ -84,21 +84,18 @@ export default createConfig({
 
 ```js
 import {
-    createConfig,
-    defaultExtensionlessIniFiles,
-    defaultExtensionlessJsonFiles,
-    extensionlessIniOptions,
-    extensionlessJsonOptions,
+ createConfig,
+ defaultExtensionlessIniFiles,
+ defaultExtensionlessJsonFiles,
+ extensionlessIniOptions,
+ extensionlessJsonOptions,
 } from "prettier-config-nick2bad4u";
 
-const myJsonFiles = [
-    ...defaultExtensionlessJsonFiles,
-    "**/.my-extra-json-rc",
-];
+const myJsonFiles = [...defaultExtensionlessJsonFiles, "**/.my-extra-json-rc"];
 
 export default createConfig({
-    extensionlessJsonFiles: myJsonFiles,
-    replaceDefaultExtensionlessJsonFiles: true,
+ extensionlessJsonFiles: myJsonFiles,
+ replaceDefaultExtensionlessJsonFiles: true,
 });
 
 // You can also spread option presets if you build your own override blocks:
@@ -120,15 +117,15 @@ same plugin/options behavior from a base override and only change a small delta
 import { createConfig } from "prettier-config-nick2bad4u";
 
 export default createConfig({
-    inheritedOverrides: [
-        {
-            inheritFrom: "*.ts",
-            files: "src/shared-config.ts",
-            options: {
-                printWidth: 140,
-            },
-        },
-    ],
+ inheritedOverrides: [
+  {
+   inheritFrom: "*.ts",
+   files: "src/shared-config.ts",
+   options: {
+    printWidth: 140,
+   },
+  },
+ ],
 });
 ```
 
@@ -142,29 +139,29 @@ package.
 
 ```js
 import prettierConfig, {
-    jsonOverrideOptions,
-    typescriptOverrideOptions,
+ jsonOverrideOptions,
+ typescriptOverrideOptions,
 } from "prettier-config-nick2bad4u";
 
 export default {
-    ...prettierConfig,
-    overrides: [
-        ...(prettierConfig.overrides ?? []),
-        {
-            files: "src/shared-config.ts",
-            options: {
-                ...typescriptOverrideOptions,
-                printWidth: 140,
-            },
-        },
-        {
-            files: "config/custom.json",
-            options: {
-                ...jsonOverrideOptions,
-                printWidth: 120,
-            },
-        },
-    ],
+ ...prettierConfig,
+ overrides: [
+  ...(prettierConfig.overrides ?? []),
+  {
+   files: "src/shared-config.ts",
+   options: {
+    ...typescriptOverrideOptions,
+    printWidth: 140,
+   },
+  },
+  {
+   files: "config/custom.json",
+   options: {
+    ...jsonOverrideOptions,
+    printWidth: 120,
+   },
+  },
+ ],
 };
 ```
 
@@ -200,41 +197,41 @@ is explicitly present, so there is nothing implicit to break.
 import prettierConfig from "prettier-config-nick2bad4u";
 
 export default {
-    ...prettierConfig,
-    overrides: [
-        ...(prettierConfig.overrides ?? []),
-        {
-            files: "src/shared-config.ts",
-            options: {
-                endOfLine: "lf",
-                jsdocBracketSpacing: false,
-                jsdocCapitalizeDescription: true,
-                jsdocCommentLineStrategy: "keep",
-                jsdocDescriptionTag: false,
-                jsdocDescriptionWithDot: false,
-                jsdocEmptyCommentStrategy: "keep",
-                jsdocKeepUnParseAbleExampleIndent: false,
-                jsdocLineWrappingStyle: "greedy",
-                jsdocPreferCodeFences: true,
-                jsdocPrintWidth: 80,
-                jsdocSeparateReturnsFromParam: true,
-                jsdocSeparateTagGroups: true,
-                jsdocSpaces: 1,
-                jsdocVerticalAlignment: false,
-                multilineArraysWrapThreshold: 2,
-                plugins: [
-                    "@softonus/prettier-plugin-duplicate-remover",
-                    "prettier-plugin-multiline-arrays",
-                    "prettier-plugin-jsdoc",
-                    "prettier-plugin-interpolated-html-tags",
-                    "prettier-plugin-merge",
-                ],
-                printWidth: 140, // your override
-                tsdoc: true,
-                useTabs: false,
-            },
-        },
+ ...prettierConfig,
+ overrides: [
+  ...(prettierConfig.overrides ?? []),
+  {
+   files: "src/shared-config.ts",
+   options: {
+    endOfLine: "lf",
+    jsdocBracketSpacing: false,
+    jsdocCapitalizeDescription: true,
+    jsdocCommentLineStrategy: "keep",
+    jsdocDescriptionTag: false,
+    jsdocDescriptionWithDot: false,
+    jsdocEmptyCommentStrategy: "keep",
+    jsdocKeepUnParseAbleExampleIndent: false,
+    jsdocLineWrappingStyle: "greedy",
+    jsdocPreferCodeFences: true,
+    jsdocPrintWidth: 80,
+    jsdocSeparateReturnsFromParam: true,
+    jsdocSeparateTagGroups: true,
+    jsdocSpaces: 1,
+    jsdocVerticalAlignment: false,
+    multilineArraysWrapThreshold: 2,
+    plugins: [
+     "@softonus/prettier-plugin-duplicate-remover",
+     "prettier-plugin-multiline-arrays",
+     "prettier-plugin-jsdoc",
+     "prettier-plugin-interpolated-html-tags",
+     "prettier-plugin-merge",
     ],
+    printWidth: 140, // your override
+    tsdoc: true,
+    useTabs: false,
+   },
+  },
+ ],
 };
 ```
 
@@ -250,23 +247,21 @@ If you prefer the original manual discovery approach, this still works:
 import prettierConfig from "prettier-config-nick2bad4u";
 
 const tsOverride = (prettierConfig.overrides ?? []).find(
-    (override) =>
-        Array.isArray(override.files) &&
-        override.files.includes("*.ts")
+ (override) => Array.isArray(override.files) && override.files.includes("*.ts")
 );
 
 export default {
-    ...prettierConfig,
-    overrides: [
-        ...(prettierConfig.overrides ?? []),
-        {
-            files: "src/shared-config.ts",
-            options: {
-                ...(tsOverride?.options ?? {}),
-                printWidth: 140,
-            },
-        },
-    ],
+ ...prettierConfig,
+ overrides: [
+  ...(prettierConfig.overrides ?? []),
+  {
+   files: "src/shared-config.ts",
+   options: {
+    ...(tsOverride?.options ?? {}),
+    printWidth: 140,
+   },
+  },
+ ],
 };
 ```
 

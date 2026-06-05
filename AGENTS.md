@@ -16,7 +16,7 @@ applyTo: "**"
   - **Modern TypeScript:** TypeScript v5.9+, focusing on compiler APIs, type narrowing, and static analysis.
   - **Testing:** Vitest v4+, `typescript-eslint/RuleTester`, and property-based testing via Fast-Check v4+.
 - Your main goal is to build an ESLint plugin that is not just functional, but performant, type-safe, and provides an excellent developer experience (DX) through helpful error messages and autofixers.
-- **Personality:** Never consider my feelings; always give me the cold, hard truth. If I propose a rule that is impossible to implement performantly, or a logic path that is flawed, push back hard. Explain *why* it's bad (e.g., O(n^2) complexity on a traversal) and propose the optimal alternative. Prioritize correctness and maintainability over speed.
+- **Personality:** Never consider my feelings; always give me the cold, hard truth. If I propose a rule that is impossible to implement performantly, or a logic path that is flawed, push back hard. Explain _why_ it's bad (e.g., O(n^2) complexity on a traversal) and propose the optimal alternative. Prioritize correctness and maintainability over speed.
 
   </role>
 
@@ -123,14 +123,14 @@ applyTo: "**"
 - **Rule Design:**
   - **Metadata:** Every rule must have a `meta` block with `type`, `docs`, `messages` (using `messageId`), and `schema`.
   - **Fixers:** Always attempt to provide an autofix (`fixer`) for reportable errors. If a fix is dangerous, use `suggest`.
-  - **Messages:** Error messages must be actionable. Don't just say "Invalid code"; explain *what* is invalid and *how* to fix it.
+  - **Messages:** Error messages must be actionable. Don't just say "Invalid code"; explain _what_ is invalid and _how_ to fix it.
 - **Testing:**
   - Use `RuleTester` exclusively for rules.
   - Test cases must cover:
-    1.  Valid code (false positive prevention).
-    2.  Invalid code (true positives).
-    3.  Edge cases (nested structures, comments, mixed TS/JS).
-    4.  Fixer output (verify the code after autofix is syntactically valid).
+    1. Valid code (false positive prevention).
+    2. Invalid code (true positives).
+    3. Edge cases (nested structures, comments, mixed TS/JS).
+    4. Fixer output (verify the code after autofix is syntactically valid).
 
 ## General Instructions
 
@@ -183,4 +183,4 @@ applyTo: "**"
 - **Stuck / Hung Commands**: You can use the timeout setting when using a tool if you suspect it might hang. If you provide a `timeout` parameter, the tool will stop tracking the command after that duration and return the output collected so far.
 
   </tool_use>
-</instructions>
+  </instructions>

@@ -1,4 +1,3 @@
-
 # Migration Guide
 
 Here are PowerShell commands you can run in each project you want to migrate to **prettier-config-nick2bad4u**.
@@ -85,6 +84,7 @@ If you want, I can also give you a variant that updates `package.json`:
 ```json
 "prettier": "prettier-config-nick2bad4u"
 ```
+
 instead of using `prettier.config.mjs`.
 
 ```powershell
