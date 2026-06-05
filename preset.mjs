@@ -20,6 +20,7 @@ import sharedPrettierConfig, {
     typescriptOverrideOptions as typescriptOverrideOptionsInternal,
     userJavaScriptOverrideOptions as userJavaScriptOverrideOptionsInternal,
     xmlOverrideOptions as xmlOverrideOptionsInternal,
+    yamlOverrideOptions as yamlOverrideOptionsInternal,
 } from "./prettier.config.mjs";
 
 /** Named export — use when you want to spread or inspect individual options. */
@@ -99,6 +100,11 @@ export const markdownOverrideOptions = Object.freeze({
 /** Shared option preset used by MDX override blocks. */
 export const mdxOverrideOptions = Object.freeze({
     ...mdxOverrideOptionsInternal,
+});
+
+/** Shared option preset used by YAML override blocks. */
+export const yamlOverrideOptions = Object.freeze({
+    ...yamlOverrideOptionsInternal,
 });
 
 /** Shared option preset used by TOML override blocks. */

@@ -1,3 +1,4 @@
+import prettier from "prettier";
 import prettierConfig, {
     codeownersOverrideOptions,
     config,
@@ -21,6 +22,7 @@ import prettierConfig, {
     typescriptOverrideOptions,
     userJavaScriptOverrideOptions,
     xmlOverrideOptions,
+    yamlOverrideOptions,
 } from "prettier-config-nick2bad4u";
 import { describe, expect, it } from "vitest";
 
@@ -89,6 +91,73 @@ describe("prettier-config-nick2bad4u", () => {
         expect(iniOverrideOptions.plugins).toContain("prettier-plugin-ini");
     });
 
+    it("locks supported language-plugin formatting options", () => {
+        expect.assertions(19);
+
+        expect(tomlOverrideOptions["alignEntries"]).toBeTruthy();
+        expect(tomlOverrideOptions["compactArrays"]).toBeFalsy();
+        expect(tomlOverrideOptions["indentEntries"]).toBeTruthy();
+        expect(tomlOverrideOptions["indentTables"]).toBeTruthy();
+        expect(tomlOverrideOptions.printWidth).toBe(120);
+        expect(tomlOverrideOptions["reorderKeys"]).toBeFalsy();
+        expect(tomlOverrideOptions.trailingComma).toBe("none");
+        expect(xmlOverrideOptions["xmlQuoteAttributes"]).toBe("preserve");
+        expect(xmlOverrideOptions["xmlSortAttributesByKey"]).toBeFalsy();
+        expect(xmlOverrideOptions["xmlWhitespaceSensitivity"]).toBe("strict");
+        expect(phpOverrideOptions["braceStyle"]).toBe("per-cs");
+        expect(phpOverrideOptions["trailingCommaPHP"]).toBeTruthy();
+        expect(powershellOverrideOptions["powershellKeywordCase"]).toBe(
+            "lower"
+        );
+        expect(powershellOverrideOptions["powershellPreset"]).toBe(
+            "invoke-formatter"
+        );
+        expect(
+            powershellOverrideOptions["powershellRewriteAliases"]
+        ).toBeFalsy();
+        expect(shellOverrideOptions["indent"]).toBe(4);
+        expect(shellOverrideOptions["switchCaseIndent"]).toBeTruthy();
+        expect(extensionlessIniOptions["iniSpaceAroundEquals"]).toBeTruthy();
+        expect(iniOverrideOptions["iniSpaceAroundEquals"]).toBeTruthy();
+    });
+
+    it("locks stable SQL plugin formatting options", () => {
+        expect.assertions(6);
+
+        expect(sqlOverrideOptions["formatter"]).toBe("sql-formatter");
+        expect(sqlOverrideOptions["keywordCase"]).toBe("preserve");
+        expect(sqlOverrideOptions["language"]).toBe("sqlite");
+        expect(sqlOverrideOptions["identifierCase"]).toBe("preserve");
+        expect(sqlOverrideOptions["indentStyle"]).toBe("standard");
+        expect(sqlOverrideOptions["newlineBeforeSemicolon"]).toBeFalsy();
+    });
+
+    it("locks safe YAML plugin formatting options", () => {
+        expect.assertions(6);
+
+        expect(yamlOverrideOptions.parser).toBe("yaml");
+        expect(yamlOverrideOptions.tabWidth).toBe(4);
+        expect(yamlOverrideOptions["yamlQuoteKeys"]).toBeFalsy();
+        expect(yamlOverrideOptions["yamlQuoteValues"]).toBeTruthy();
+        expect(yamlOverrideOptions["yamlQuoteValuesMatching"]).toBe(
+            "^(?:yes|no|on|off)$"
+        );
+        expect(yamlOverrideOptions.plugins).toStrictEqual([
+            "prettier-plugin-yaml",
+        ]);
+    });
+
+    it("formats YAML with quoted keys and string values", async () => {
+        expect.assertions(1);
+
+        await expect(
+            prettier.format("name: test\nenabled: true\ncount: 2\n", {
+                ...yamlOverrideOptions,
+                filepath: "sample.yml",
+            })
+        ).resolves.toBe('name: "test"\nenabled: true\ncount: 2\n');
+    });
+
     it("exposes expected top-level formatting options", () => {
         expect.assertions(4);
 
@@ -99,7 +168,7 @@ describe("prettier-config-nick2bad4u", () => {
     });
 
     it("contains plugin-backed overrides for common file types", () => {
-        expect.assertions(7);
+        expect.assertions(9);
 
         const overrideFiles = (config.overrides ?? []).map((override) =>
             JSON.stringify(override.files)
@@ -113,6 +182,12 @@ describe("prettier-config-nick2bad4u", () => {
         ).toBeTruthy();
         expect(
             overrideFiles.some((files) => files.includes("*.toml"))
+        ).toBeTruthy();
+        expect(
+            overrideFiles.some((files) => files.includes(".yamllint"))
+        ).toBeTruthy();
+        expect(
+            overrideFiles.some((files) => files.includes(".clang-format"))
         ).toBeTruthy();
         expect(
             overrideFiles.some((files) => files.includes("*.sh"))

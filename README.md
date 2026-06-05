@@ -177,6 +177,7 @@ Available named override option presets:
 - `userJavaScriptOverrideOptions`
 - `markdownOverrideOptions`
 - `mdxOverrideOptions`
+- `yamlOverrideOptions`
 - `tomlOverrideOptions`
 - `xmlOverrideOptions`
 - `phpOverrideOptions`
@@ -279,7 +280,7 @@ export default {
 
 - Default export: the shared Prettier config object
 - Named export: `config`
-- Named exports: `createConfig`, `defaultExtensionlessJsonFiles`, `defaultExtensionlessIniFiles`, `extensionlessJsonOptions`, `extensionlessIniOptions`, `typescriptOverrideOptions`, `jsonOverrideOptions`, `packageJsonOverrideOptions`, `htmlOverrideOptions`, `userJavaScriptOverrideOptions`, `markdownOverrideOptions`, `mdxOverrideOptions`, `tomlOverrideOptions`, `xmlOverrideOptions`, `phpOverrideOptions`, `sqlOverrideOptions`, `powershellOverrideOptions`, `codeownersOverrideOptions`, `shellOverrideOptions`, `propertiesOverrideOptions`, `iniOverrideOptions`
+- Named exports: `createConfig`, `defaultExtensionlessJsonFiles`, `defaultExtensionlessIniFiles`, `extensionlessJsonOptions`, `extensionlessIniOptions`, `typescriptOverrideOptions`, `jsonOverrideOptions`, `packageJsonOverrideOptions`, `htmlOverrideOptions`, `userJavaScriptOverrideOptions`, `markdownOverrideOptions`, `mdxOverrideOptions`, `yamlOverrideOptions`, `tomlOverrideOptions`, `xmlOverrideOptions`, `phpOverrideOptions`, `sqlOverrideOptions`, `powershellOverrideOptions`, `codeownersOverrideOptions`, `shellOverrideOptions`, `propertiesOverrideOptions`, `iniOverrideOptions`
 - Published files: `prettier.config.mjs`, `preset.mjs`, and `index.d.ts`
 
 ## Development checks

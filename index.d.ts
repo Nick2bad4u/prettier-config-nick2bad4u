@@ -63,6 +63,8 @@ export declare const userJavaScriptOverrideOptions: Readonly<Partial<Config>>;
 export declare const markdownOverrideOptions: Readonly<Partial<Config>>;
 /** Shared option preset used by MDX override blocks. */
 export declare const mdxOverrideOptions: Readonly<Partial<Config>>;
+/** Shared option preset used by YAML override blocks. */
+export declare const yamlOverrideOptions: Readonly<Partial<Config>>;
 /** Shared option preset used by TOML override blocks. */
 export declare const tomlOverrideOptions: Readonly<Partial<Config>>;
 /** Shared option preset used by XML-family override blocks. */

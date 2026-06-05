@@ -27,6 +27,7 @@ const localConfig = createConfig({
     //   "*.json" — generic JSON (excluding package.json)
     //   "*.md"   — Markdown
     //   "*.mdx"  — MDX
+    //   "*.yaml" — YAML (also applies to *.yml and .yamllint)
     //   "*.toml" — TOML
     //   "*.xml"  — XML-family (XML/XSD/XSL/XAML)
     //   "*.php"  — PHP

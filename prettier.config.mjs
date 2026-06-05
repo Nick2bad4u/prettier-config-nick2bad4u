@@ -172,34 +172,81 @@ export const mdxOverrideOptions = Object.freeze({
 });
 
 /** @type {Readonly<Partial<import("prettier").Config>>} */
-export const tomlOverrideOptions = Object.freeze({
+export const yamlOverrideOptions = Object.freeze({
     endOfLine: "lf",
+    parser: "yaml",
+    plugins: ["prettier-plugin-yaml"],
+    tabWidth: 4,
+    useTabs: false,
+    yamlQuoteKeys: false,
+    yamlQuoteValues: true,
+    yamlQuoteValuesMatching: "^(?:yes|no|on|off)$",
+});
+
+/** @type {Readonly<Partial<import("prettier").Config>>} */
+export const tomlOverrideOptions = Object.freeze({
+    alignComments: true,
+    alignEntries: true,
+    allowedBlankLines: 1,
+    arrayAutoCollapse: true,
+    arrayAutoExpand: true,
+    compactArrays: false,
+    compactEntries: false,
+    compactInlineTables: false,
+    endOfLine: "lf",
+    indentEntries: true,
+    indentTables: true,
     plugins: ["prettier-plugin-toml"],
     printWidth: 120,
+    reorderKeys: false,
     tabWidth: 4,
+    trailingComma: "none",
     useTabs: false,
 });
 
 /** @type {Readonly<Partial<import("prettier").Config>>} */
 export const xmlOverrideOptions = Object.freeze({
+    bracketSameLine: false,
     endOfLine: "lf",
     plugins: ["@prettier/plugin-xml"],
+    printWidth: 80,
+    singleAttributePerLine: false,
     tabWidth: 2,
     useTabs: false,
+    xmlQuoteAttributes: "preserve",
+    xmlSelfClosingSpace: true,
+    xmlSortAttributesByKey: false,
+    xmlWhitespaceSensitivity: "strict",
 });
 
 /** @type {Readonly<Partial<import("prettier").Config>>} */
 export const phpOverrideOptions = Object.freeze({
+    braceStyle: "per-cs",
     endOfLine: "lf",
     phpVersion: "auto",
     plugins: ["@prettier/plugin-php"],
+    printWidth: 80,
+    singleQuote: false,
+    tabWidth: 4,
+    trailingCommaPHP: true,
     useTabs: false,
 });
 
 /** @type {Readonly<Partial<import("prettier").Config>>} */
 export const sqlOverrideOptions = Object.freeze({
+    dataTypeCase: "preserve",
+    denseOperators: false,
     endOfLine: "lf",
+    expressionWidth: 50,
+    formatter: "sql-formatter",
+    functionCase: "preserve",
+    identifierCase: "preserve",
+    indentStyle: "standard",
+    keywordCase: "preserve",
     language: "sqlite",
+    linesBetweenQueries: 1,
+    logicalOperatorNewline: "before",
+    newlineBeforeSemicolon: false,
     plugins: ["prettier-plugin-sql"],
     useTabs: false,
 });
@@ -208,6 +255,19 @@ export const sqlOverrideOptions = Object.freeze({
 export const powershellOverrideOptions = Object.freeze({
     endOfLine: "lf",
     plugins: ["prettier-plugin-powershell"],
+    powershellBlankLineAfterParam: true,
+    powershellBlankLinesBetweenFunctions: 1,
+    powershellBraceStyle: "1tbs",
+    powershellIndentSize: 4,
+    powershellIndentStyle: "spaces",
+    powershellKeywordCase: "lower",
+    powershellLineWidth: 120,
+    powershellPreferSingleQuote: false,
+    powershellPreset: "invoke-formatter",
+    powershellRewriteAliases: false,
+    powershellRewriteWriteHost: false,
+    powershellSortHashtableKeys: false,
+    powershellTrailingComma: "none",
     useTabs: false,
 });
 
@@ -220,8 +280,17 @@ export const codeownersOverrideOptions = Object.freeze({
 
 /** @type {Readonly<Partial<import("prettier").Config>>} */
 export const shellOverrideOptions = Object.freeze({
+    binaryNextLine: true,
     endOfLine: "lf",
+    functionNextLine: false,
+    indent: 4,
+    keepComments: true,
+    keepPadding: false,
+    minify: false,
     plugins: ["prettier-plugin-sh"],
+    singleLine: false,
+    spaceRedirects: true,
+    switchCaseIndent: true,
     useTabs: false,
 });
 
@@ -306,6 +375,21 @@ export const createConfig = (options = {}) => {
         {
             files: "*.mdx",
             options: mdxOverrideOptions,
+        },
+        {
+            files: [
+                "*.yaml",
+                "*.yml",
+                "**/.clang-format",
+                "**/.clang-tidy",
+                "**/.clangd",
+                "**/.yamlfmt",
+                "**/.yamllint",
+                ".yamllint",
+                ".yamllint.yaml",
+                ".yamllint.yml",
+            ],
+            options: yamlOverrideOptions,
         },
         {
             files: "*.toml",
