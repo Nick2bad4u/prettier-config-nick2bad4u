@@ -1,4 +1,4 @@
-import prettier from "prettier";
+import prettier, { type Config } from "prettier";
 import prettierConfig, {
     codeownersOverrideOptions,
     config,
@@ -25,6 +25,23 @@ import prettierConfig, {
     yamlOverrideOptions,
 } from "prettier-config-nick2bad4u";
 import { describe, expect, it } from "vitest";
+
+type PrettierOverride = NonNullable<Config["overrides"]>[number];
+
+const overrideHasFiles = (
+    override: PrettierOverride,
+    files: readonly string[]
+) =>
+    Array.isArray(override.files) &&
+    files.every((file) => override.files.includes(file));
+
+const findOverrideWithFiles = (files: readonly string[]) =>
+    (config.overrides ?? []).find((override) =>
+        overrideHasFiles(override, files)
+    );
+
+const findOverrideForFile = (file: string) =>
+    (config.overrides ?? []).find((override) => override.files === file);
 
 describe("prettier-config-nick2bad4u", () => {
     it("exports the same config as default and named export", () => {
@@ -62,7 +79,7 @@ describe("prettier-config-nick2bad4u", () => {
         expect(jsonOverrideOptions.plugins).toContain(
             "prettier-plugin-sort-json"
         );
-        expect(jsonOverrideOptions["jsonRecursiveSort"]).toBeFalsy();
+        expect(jsonOverrideOptions["jsonRecursiveSort"]).toBe(false);
         expect(packageJsonOverrideOptions.plugins).toContain(
             "prettier-plugin-packagejson"
         );
@@ -94,31 +111,31 @@ describe("prettier-config-nick2bad4u", () => {
     it("locks supported language-plugin formatting options", () => {
         expect.assertions(19);
 
-        expect(tomlOverrideOptions["alignEntries"]).toBeTruthy();
-        expect(tomlOverrideOptions["compactArrays"]).toBeFalsy();
-        expect(tomlOverrideOptions["indentEntries"]).toBeTruthy();
-        expect(tomlOverrideOptions["indentTables"]).toBeTruthy();
+        expect(tomlOverrideOptions["alignEntries"]).toBe(true);
+        expect(tomlOverrideOptions["compactArrays"]).toBe(false);
+        expect(tomlOverrideOptions["indentEntries"]).toBe(true);
+        expect(tomlOverrideOptions["indentTables"]).toBe(true);
         expect(tomlOverrideOptions.printWidth).toBe(120);
-        expect(tomlOverrideOptions["reorderKeys"]).toBeFalsy();
+        expect(tomlOverrideOptions["reorderKeys"]).toBe(false);
         expect(tomlOverrideOptions.trailingComma).toBe("none");
         expect(xmlOverrideOptions["xmlQuoteAttributes"]).toBe("preserve");
-        expect(xmlOverrideOptions["xmlSortAttributesByKey"]).toBeFalsy();
+        expect(xmlOverrideOptions["xmlSortAttributesByKey"]).toBe(false);
         expect(xmlOverrideOptions["xmlWhitespaceSensitivity"]).toBe("strict");
         expect(phpOverrideOptions["braceStyle"]).toBe("per-cs");
-        expect(phpOverrideOptions["trailingCommaPHP"]).toBeTruthy();
+        expect(phpOverrideOptions["trailingCommaPHP"]).toBe(true);
         expect(powershellOverrideOptions["powershellKeywordCase"]).toBe(
             "lower"
         );
         expect(powershellOverrideOptions["powershellPreset"]).toBe(
             "invoke-formatter"
         );
-        expect(
-            powershellOverrideOptions["powershellRewriteAliases"]
-        ).toBeFalsy();
+        expect(powershellOverrideOptions["powershellRewriteAliases"]).toBe(
+            false
+        );
         expect(shellOverrideOptions["indent"]).toBe(4);
-        expect(shellOverrideOptions["switchCaseIndent"]).toBeTruthy();
-        expect(extensionlessIniOptions["iniSpaceAroundEquals"]).toBeTruthy();
-        expect(iniOverrideOptions["iniSpaceAroundEquals"]).toBeTruthy();
+        expect(shellOverrideOptions["switchCaseIndent"]).toBe(true);
+        expect(extensionlessIniOptions["iniSpaceAroundEquals"]).toBe(true);
+        expect(iniOverrideOptions["iniSpaceAroundEquals"]).toBe(true);
     });
 
     it("locks stable SQL plugin formatting options", () => {
@@ -129,7 +146,7 @@ describe("prettier-config-nick2bad4u", () => {
         expect(sqlOverrideOptions["language"]).toBe("sqlite");
         expect(sqlOverrideOptions["identifierCase"]).toBe("preserve");
         expect(sqlOverrideOptions["indentStyle"]).toBe("standard");
-        expect(sqlOverrideOptions["newlineBeforeSemicolon"]).toBeFalsy();
+        expect(sqlOverrideOptions["newlineBeforeSemicolon"]).toBe(false);
     });
 
     it("locks safe YAML plugin formatting options", () => {
@@ -137,8 +154,8 @@ describe("prettier-config-nick2bad4u", () => {
 
         expect(yamlOverrideOptions.parser).toBe("yaml");
         expect(yamlOverrideOptions.tabWidth).toBe(4);
-        expect(yamlOverrideOptions["yamlQuoteKeys"]).toBeFalsy();
-        expect(yamlOverrideOptions["yamlQuoteValues"]).toBeTruthy();
+        expect(yamlOverrideOptions["yamlQuoteKeys"]).toBe(false);
+        expect(yamlOverrideOptions["yamlQuoteValues"]).toBe(true);
         expect(yamlOverrideOptions["yamlQuoteValuesMatching"]).toBe(
             "^(?:yes|no|on|off)$"
         );
@@ -162,9 +179,9 @@ describe("prettier-config-nick2bad4u", () => {
         expect.assertions(4);
 
         expect(config.printWidth).toBe(80);
-        expect(config.semi).toBeTruthy();
+        expect(config.semi).toBe(true);
         expect(config.trailingComma).toBe("es5");
-        expect(config.singleQuote).toBeFalsy();
+        expect(config.singleQuote).toBe(false);
     });
 
     it("contains plugin-backed overrides for common file types", () => {
@@ -174,74 +191,44 @@ describe("prettier-config-nick2bad4u", () => {
             JSON.stringify(override.files)
         );
 
-        expect(
-            overrideFiles.some((files) => files.includes("*.md"))
-        ).toBeTruthy();
-        expect(
-            overrideFiles.some((files) => files.includes("*.json"))
-        ).toBeTruthy();
-        expect(
-            overrideFiles.some((files) => files.includes("*.toml"))
-        ).toBeTruthy();
-        expect(
-            overrideFiles.some((files) => files.includes(".yamllint"))
-        ).toBeTruthy();
+        expect(overrideFiles.some((files) => files.includes("*.md"))).toBe(
+            true
+        );
+        expect(overrideFiles.some((files) => files.includes("*.json"))).toBe(
+            true
+        );
+        expect(overrideFiles.some((files) => files.includes("*.toml"))).toBe(
+            true
+        );
+        expect(overrideFiles.some((files) => files.includes(".yamllint"))).toBe(
+            true
+        );
         expect(
             overrideFiles.some((files) => files.includes(".clang-format"))
-        ).toBeTruthy();
-        expect(
-            overrideFiles.some((files) => files.includes("*.sh"))
-        ).toBeTruthy();
-        expect(
-            overrideFiles.some((files) => files.includes("*.php"))
-        ).toBeTruthy();
+        ).toBe(true);
+        expect(overrideFiles.some((files) => files.includes("*.sh"))).toBe(
+            true
+        );
+        expect(overrideFiles.some((files) => files.includes("*.php"))).toBe(
+            true
+        );
         expect(
             overrideFiles.some((files) => files.includes("CODEOWNERS"))
-        ).toBeTruthy();
+        ).toBe(true);
         expect(
             overrideFiles.some((files) => files.includes(".all-contributorsrc"))
-        ).toBeTruthy();
+        ).toBe(true);
     });
 
-    it("configures plugin-specific options only where they add value", () => {
-        expect.assertions(19);
+    it("configures JavaScript and JSON plugin options only where they add value", () => {
+        expect.assertions(8);
 
-        const jsOverride = (config.overrides ?? []).find(
-            (override) =>
-                Array.isArray(override.files) &&
-                override.files.includes("*.ts") &&
-                override.files.includes("*.mjs")
-        );
-        const phpOverride = (config.overrides ?? []).find(
-            (override) => override.files === "*.php"
-        );
-        const jsonOverride = (config.overrides ?? []).find(
-            (override) => override.files === "*.json"
-        );
-        const extensionlessJsonOverride = (config.overrides ?? []).find(
-            (override) =>
-                Array.isArray(override.files) &&
-                override.files.includes("**/.all-contributorsrc") &&
-                override.files.includes("**/.madgerc")
-        );
-        const extensionlessIniOverride = (config.overrides ?? []).find(
-            (override) =>
-                Array.isArray(override.files) &&
-                override.files.includes("**/.editorconfig") &&
-                override.files.includes("**/.gitconfig")
-        );
-        const codeownersOverride = (config.overrides ?? []).find(
-            (override) =>
-                Array.isArray(override.files) &&
-                override.files.includes("CODEOWNERS") &&
-                override.files.includes("**/CODEOWNERS")
-        );
-        const packageJsonOverride = (config.overrides ?? []).find(
-            (override) =>
-                Array.isArray(override.files) &&
-                override.files.includes("**/package.json") &&
-                override.files.includes("**/package-lock.json")
-        );
+        const jsOverride = findOverrideWithFiles(["*.ts", "*.mjs"]);
+        const jsonOverride = findOverrideForFile("*.json");
+        const packageJsonOverride = findOverrideWithFiles([
+            "**/package.json",
+            "**/package-lock.json",
+        ]);
 
         expect(config.plugins).toBeUndefined();
         expect(config["multilineArraysWrapThreshold"]).toBeUndefined();
@@ -257,6 +244,24 @@ describe("prettier-config-nick2bad4u", () => {
             "**/package.json",
             "**/package-lock.json",
         ]);
+        expect(packageJsonOverride?.files).toStrictEqual([
+            "**/package.json",
+            "**/package-lock.json",
+        ]);
+    });
+
+    it("configures extensionless file plugin options only where they add value", () => {
+        expect.assertions(6);
+
+        const extensionlessJsonOverride = findOverrideWithFiles([
+            "**/.all-contributorsrc",
+            "**/.madgerc",
+        ]);
+        const extensionlessIniOverride = findOverrideWithFiles([
+            "**/.editorconfig",
+            "**/.gitconfig",
+        ]);
+
         expect(extensionlessJsonOverride?.options?.parser).toBe("json");
         expect(extensionlessJsonOverride?.options?.plugins).toContain(
             "prettier-plugin-sort-json"
@@ -271,6 +276,21 @@ describe("prettier-config-nick2bad4u", () => {
         expect(extensionlessIniOverride?.files).not.toContain(
             "**/.browserlistrc"
         );
+    });
+
+    it("configures remaining plugin-specific options only where they add value", () => {
+        expect.assertions(6);
+
+        const phpOverride = findOverrideForFile("*.php");
+        const codeownersOverride = findOverrideWithFiles([
+            "CODEOWNERS",
+            "**/CODEOWNERS",
+        ]);
+        const packageJsonOverride = findOverrideWithFiles([
+            "**/package.json",
+            "**/package-lock.json",
+        ]);
+
         expect(phpOverride?.options?.["phpVersion"]).toBe("auto");
         expect(phpOverride?.options?.plugins).toStrictEqual([
             "@prettier/plugin-php",
@@ -350,7 +370,7 @@ describe("prettier-config-nick2bad4u", () => {
             (override) => override.files === "src/shared-config.ts"
         );
 
-        expect(inheritedTsFileOverride).toBeDefined();
+        expect(inheritedTsFileOverride?.files).toBe("src/shared-config.ts");
         expect(inheritedTsFileOverride?.options?.printWidth).toBe(140);
         expect(inheritedTsFileOverride?.options?.plugins).toContain(
             "prettier-plugin-multiline-arrays"
@@ -361,8 +381,8 @@ describe("prettier-config-nick2bad4u", () => {
         expect(
             inheritedTsFileOverride?.options?.["multilineArraysWrapThreshold"]
         ).toBe(2);
-        expect(inheritedTsFileOverride?.options?.["tsdoc"]).toBeTruthy();
-        expect(inheritedTsFileOverride?.options?.useTabs).toBeFalsy();
+        expect(inheritedTsFileOverride?.options?.["tsdoc"]).toBe(true);
+        expect(inheritedTsFileOverride?.options?.useTabs).toBe(false);
         expect(inheritedTsFileOverride?.options?.endOfLine).toBe("lf");
     });
 

@@ -318,7 +318,7 @@ export const iniOverrideOptions = Object.freeze({
  *     options?: Readonly<CreateConfigOptions>
  * ) => import("prettier").Config}
  */
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types -- JSDoc return typing is used for this JS module API.
+
 export const createConfig = (options = {}) => {
     const {
         extensionlessIniFiles = [],
