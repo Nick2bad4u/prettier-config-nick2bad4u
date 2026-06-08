@@ -276,11 +276,14 @@ export default {
 - Default export: the shared Prettier config object
 - Named export: `config`
 - Named exports: `createConfig`, `defaultExtensionlessJsonFiles`, `defaultExtensionlessIniFiles`, `extensionlessJsonOptions`, `extensionlessIniOptions`, `typescriptOverrideOptions`, `jsonOverrideOptions`, `packageJsonOverrideOptions`, `htmlOverrideOptions`, `userJavaScriptOverrideOptions`, `markdownOverrideOptions`, `mdxOverrideOptions`, `astroOverrideOptions`, `yamlOverrideOptions`, `tomlOverrideOptions`, `xmlOverrideOptions`, `phpOverrideOptions`, `sqlOverrideOptions`, `powershellOverrideOptions`, `codeownersOverrideOptions`, `shellOverrideOptions`, `propertiesOverrideOptions`, `iniOverrideOptions`
-- Published files: `prettier.config.mjs`, `preset.mjs`, and `index.d.ts`
+- TypeScript source: `src/prettier.config.mts` and `src/preset.mts`
+- Root shims: `prettier.config.mjs`, `preset.mjs`, `index.d.ts`, and `prettier.config.d.mts`
+- Generated package implementation: `dist/`
 
 ## Development checks
 
 ```sh
+npm run build
 npm run lint:all
 npm run coverage
 npm run release:verify

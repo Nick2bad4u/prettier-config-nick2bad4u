@@ -2,17 +2,19 @@
 
 ### 1) Update formatting options
 
-1. Edit `prettier.config.mjs`.
+1. Edit `src/prettier.config.mts`.
 2. Prefer updating existing `overrides` entries over adding redundant ones.
 3. Keep plugin-dependent options inside the relevant file-pattern override.
 4. Preserve cross-platform defaults (for example `endOfLine: "lf"` in overrides where needed).
 5. Keep key ordering stable and plugin lists explicit so repo linting stays warning-free.
+6. Run `npm run build` to regenerate the `dist/` implementation before testing or publishing.
 
 ### 2) Add or remove Prettier plugins
 
-1. Update plugin references in `prettier.config.mjs`.
+1. Update plugin references in `src/prettier.config.mts`.
 2. Keep plugin packages in `dependencies` (runtime for consuming projects), not only `devDependencies`.
-3. Re-run package and test validation to confirm plugin resolution still works.
+3. Add or update formatting fixtures under `test/fixtures/formatting/`.
+4. Re-run package and test validation to confirm plugin resolution still works.
 
 ### 2a) Future plugin considerations
 
@@ -27,9 +29,9 @@
 
 ### 3) Keep package exports/types aligned
 
-1. `preset.mjs` should keep exporting the shared config as both default and named `config`.
-2. `index.d.ts` should continue typing the export as `Readonly<prettier.Config>`.
-3. Keep `package.json` `exports`, `main`, `types`, and `files` in sync.
+1. `src/preset.mts` should keep exporting the shared config as both default and named `config`.
+2. Root `preset.mjs`, `prettier.config.mjs`, `index.d.ts`, and `prettier.config.d.mts` should stay as tiny shims into `dist/`.
+3. Keep `package.json` `exports`, `main`, `types`, and `files` in sync with the root shims and generated `dist/` artifacts.
 
 ### 4) Validation checklist (required)
 

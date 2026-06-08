@@ -63,6 +63,14 @@ jobs:
             - name: "Build package"
               run: "npm run build"
 
+            - name: "Verify package root shims are unchanged by build"
+              run: |
+                  if ! git diff --quiet -- preset.mjs prettier.config.mjs index.d.ts prettier.config.d.mts; then
+                    echo "Package root shims changed during build. Keep shims checked in and generated output under dist/." >&2
+                    git diff -- preset.mjs prettier.config.mjs index.d.ts prettier.config.d.mts
+                    exit 1
+                  fi
+
             - name: "Upload bundle analysis to Codecov"
               if: "${{ matrix.os == 'ubuntu-latest' && !cancelled() }}"
               continue-on-error: true

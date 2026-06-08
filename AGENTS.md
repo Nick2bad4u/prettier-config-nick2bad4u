@@ -42,6 +42,8 @@ applyTo: "**"
 
 - Treat `package.json` scripts and root config files as the operational source of truth for repository workflows.
 - Before changing a config file, check whether there is already a matching script, sync task, or validation step for it.
+- In this repository, edit the shared Prettier package source in `src/prettier.config.mts` and `src/preset.mts`; root `prettier.config.mjs`, `preset.mjs`, `index.d.ts`, and `prettier.config.d.mts` are tiny package shims into generated `dist/` output from `npm run build`.
+- When adding or changing a supported file type, add or update an idempotent fixture under `test/fixtures/formatting/` and verify it through the fixture test.
 
 ### Root configs and tool surfaces to respect
 

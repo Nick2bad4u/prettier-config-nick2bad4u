@@ -299,7 +299,7 @@ jobs:
                   mkdir -p "$assets_dir"
                   rm -rf "$unpack_dir"
 
-                  npm pack --json --pack-destination "$assets_dir" > "$pack_metadata_path"
+                  npm pack --ignore-scripts --json --pack-destination "$assets_dir" > "$pack_metadata_path"
 
                   tarball_filename=$(node - "$pack_metadata_path" <<'JS'
                   const fs = require("node:fs");
