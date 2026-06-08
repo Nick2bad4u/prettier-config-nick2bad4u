@@ -18,5 +18,7 @@ These instructions apply to files under `src/`.
 ## Validation
 
 - When adding or changing a supported file type, add or update an idempotent fixture under `test/fixtures/formatting/`.
-- Verify changed behavior with the fixture test or a broader repo gate when the package surface changes.
-- If exports, entrypoints, public types, or package metadata are affected, also run the package validation flow.
+- For a new supported file type, add a new fixture and include its filename in the fixture list in `test/preset.test.ts`.
+- For an existing supported file type, update the existing fixture in place unless a separate fixture covers a genuinely different file family.
+- Verify formatting behavior with `npm run test`; the fixture idempotence coverage lives in `test/preset.test.ts`.
+- If exports, entrypoints, public types, package metadata, dependency placement, or packed files are affected, also run `npm run lint:package`.
