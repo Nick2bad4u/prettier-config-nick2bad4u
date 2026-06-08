@@ -60,8 +60,10 @@ const typecheckTestFilePatterns = [
     "**/*.{test,spec}-d.{ts,tsx,mts,cts}",
     "**/*.{test,spec}.{ts,tsx,mts,cts}",
 ];
-/** Coverage defaults with dist exclusions removed because this package tests
-generated runtime artifacts. */
+/**
+ * Coverage defaults with dist exclusions removed because this package tests
+ * generated runtime artifacts.
+ */
 const packageCoverageExcludePatterns = coverageConfigDefaults.exclude.filter(
     (pattern) => !pattern.includes("dist")
 );
