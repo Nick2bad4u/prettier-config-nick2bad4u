@@ -1,3 +1,6 @@
+import { readdir, readFile } from "node:fs/promises";
+import * as path from "node:path";
+import { fileURLToPath } from "node:url";
 import prettier, { type Config } from "prettier";
 import prettierConfig, {
     astroOverrideOptions,
@@ -28,6 +31,71 @@ import prettierConfig, {
 import { describe, expect, it } from "vitest";
 
 type PrettierOverride = NonNullable<Config["overrides"]>[number];
+
+const fixtureDirectoryPath = fileURLToPath(
+    new URL("fixtures/formatting/", import.meta.url)
+);
+const generatedPrettierConfigPath = fileURLToPath(
+    new URL("../prettier.config.mjs", import.meta.url)
+);
+
+const formattingFixtureFileNames = [
+    ".all-contributorsrc",
+    ".bash_logout",
+    ".bash_profile",
+    ".bashrc",
+    ".clang-format",
+    ".clang-tidy",
+    ".clangd",
+    ".djlintrc",
+    ".editorconfig",
+    ".gitconfig",
+    ".hintrc",
+    ".htmlhintrc",
+    ".madgerc",
+    ".yamlfmt",
+    ".yamllint",
+    ".yamllint.yaml",
+    ".yamllint.yml",
+    ".zshenv",
+    ".zshrc",
+    "CODEOWNERS",
+    "package-lock.json",
+    "package.json",
+    "sample.astro",
+    "sample.bash",
+    "sample.cjs",
+    "sample.cts",
+    "sample.html",
+    "sample.ini",
+    "sample.js",
+    "sample.json",
+    "sample.jsx",
+    "sample.md",
+    "sample.mdx",
+    "sample.mjs",
+    "sample.mts",
+    "sample.php",
+    "sample.properties",
+    "sample.ps1",
+    "sample.psd1",
+    "sample.psm1",
+    "sample.sh",
+    "sample.sh.in",
+    "sample.sql",
+    "sample.toml",
+    "sample.ts",
+    "sample.tsx",
+    "sample.user.js",
+    "sample.xaml",
+    "sample.xml",
+    "sample.xsd",
+    "sample.xsl",
+    "sample.yaml",
+    "sample.yml",
+    "sample.zsh",
+    "sample.zsh-theme",
+] as const;
 
 const overrideHasFiles = (
     override: PrettierOverride,
@@ -209,7 +277,7 @@ describe("prettier-config-nick2bad4u", () => {
     });
 
     it("contains plugin-backed overrides for common file types", () => {
-        expect.assertions(10);
+        expect.assertions(12);
 
         const overrideFiles = (config.overrides ?? []).map((override) =>
             JSON.stringify(override.files)
@@ -236,6 +304,12 @@ describe("prettier-config-nick2bad4u", () => {
         expect(overrideFiles.some((files) => files.includes("*.sh"))).toBe(
             true
         );
+        expect(overrideFiles.some((files) => files.includes("*.bash"))).toBe(
+            true
+        );
+        expect(
+            overrideFiles.some((files) => files.includes("**/.bashrc"))
+        ).toBe(true);
         expect(overrideFiles.some((files) => files.includes("*.php"))).toBe(
             true
         );
@@ -275,6 +349,45 @@ describe("prettier-config-nick2bad4u", () => {
             "**/package.json",
             "**/package-lock.json",
         ]);
+    });
+
+    it("keeps formatting fixtures idempotent for every supported file family", async () => {
+        expect.assertions(56);
+
+        const actualFixtureFileNames = await readdir(fixtureDirectoryPath);
+
+        expect(new Set(actualFixtureFileNames)).toStrictEqual(
+            new Set(formattingFixtureFileNames)
+        );
+
+        await Promise.all(
+            formattingFixtureFileNames.map(async (fixtureFileName) => {
+                const fixturePath = path.join(
+                    fixtureDirectoryPath,
+                    fixtureFileName
+                );
+                const source = await readFile(fixturePath, "utf8");
+                const resolvedConfig = await prettier.resolveConfig(
+                    fixturePath,
+                    {
+                        config: generatedPrettierConfigPath,
+                    }
+                );
+
+                if (resolvedConfig === null) {
+                    throw new Error(
+                        `Unable to resolve generated Prettier config for ${fixtureFileName}.`
+                    );
+                }
+
+                const formatted = await prettier.format(source, {
+                    ...resolvedConfig,
+                    filepath: fixturePath,
+                });
+
+                expect(formatted).toBe(source);
+            })
+        );
     });
 
     it("configures extensionless file plugin options only where they add value", () => {
