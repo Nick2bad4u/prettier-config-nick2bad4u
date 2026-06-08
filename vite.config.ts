@@ -60,6 +60,11 @@ const typecheckTestFilePatterns = [
     "**/*.{test,spec}-d.{ts,tsx,mts,cts}",
     "**/*.{test,spec}.{ts,tsx,mts,cts}",
 ];
+/** Coverage defaults with dist exclusions removed because this package tests
+generated runtime artifacts. */
+const packageCoverageExcludePatterns = coverageConfigDefaults.exclude.filter(
+    (pattern) => !pattern.includes("dist")
+);
 
 /**
  * Vitest configuration for prettier-config-nick2bad4u.
@@ -104,7 +109,6 @@ const vitestConfig: ReturnType<typeof defineConfig> = defineConfig({
                 "**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx,css}",
                 "**/assets/**", // Exclude any assets folder anywhere
                 "**/config/**",
-                "**/dist/**", // Exclude any dist folder anywhere
                 "**/docs/**", // Exclude documentation files
                 "**/html/**",
                 "**/index.ts", // Exclude all barrel export files
@@ -139,10 +143,10 @@ const vitestConfig: ReturnType<typeof defineConfig> = defineConfig({
                 "stryker_prompts_by_mutator/**",
                 "temp",
                 "temp/**",
-                ...coverageConfigDefaults.exclude,
+                ...packageCoverageExcludePatterns,
             ],
             excludeAfterRemap: true, // Exclude files after remapping for accuracy
-            include: ["preset.mjs"],
+            include: ["dist/preset.mjs", "dist/prettier.config.mjs"],
             // V8 Provider Configuration (Recommended since Vitest v3.2.0)
             provider: "v8" as const, // Switch to V8 for better TypeScript support
             reporter: [

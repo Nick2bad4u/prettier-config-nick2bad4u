@@ -1,20 +1,18 @@
 {
     "$schema": "https://www.schemastore.org/tsconfig.json",
     "compilerOptions": {
-        "allowJs": true,
-        "checkJs": true,
-        "composite": true,
         "declaration": true,
-        "declarationMap": true,
+        "declarationMap": false,
         "emitDeclarationOnly": false,
+        "incremental": false,
         "isolatedDeclarations": false,
         "isolatedModules": true,
         "module": "NodeNext",
         "moduleResolution": "NodeNext",
         "noEmit": false,
         "outDir": "./dist",
-        "sourceMap": true,
-        "tsBuildInfoFile": "./.cache/tsbuildinfo/tsconfig.build.tsbuildinfo",
+        "rootDir": "./src",
+        "sourceMap": false,
         "types": [
             "node"
         ]
@@ -30,9 +28,6 @@
     ],
     "extends": "./tsconfig.json",
     "include": [
-        "index.d.ts",
-        "prettier.config.mjs",
-        "eslint.config.mjs",
-        "preset.mjs"
+        "src/**/*.mts"
     ]
 }

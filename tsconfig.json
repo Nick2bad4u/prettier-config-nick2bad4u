@@ -104,6 +104,7 @@
     ],
     "include": [
         "index.d.ts",
+        "src/**/*.mts",
         "test/**/*.d.ts",
         "test/**/*.ts",
         "vite.config.ts"
