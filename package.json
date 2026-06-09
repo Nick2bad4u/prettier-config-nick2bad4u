@@ -121,7 +121,7 @@
         "npm-package-json-lint": "^10.4.0",
         "npm-package-json-lint-config-nick2bad4u": "^1.0.2",
         "picocolors": "^1.1.1",
-        "prettier": "^3.8.3",
+        "prettier": "^3.8.4",
         "publint": "^0.3.21",
         "secretlint": "^13.0.2",
         "secretlint-config-nick2bad4u": "^1.1.0",
@@ -133,7 +133,7 @@
         "yamllint-config-nick2bad4u": "^1.0.1"
     },
     "peerDependencies": {
-        "prettier": "^3.0.0 || ^3.8.3"
+        "prettier": "^3.0.0 || ^3.8.4"
     },
     "packageManager": "npm@11.16.0",
     "engines": {
