@@ -83,6 +83,7 @@
         "typecheck": "tsc -p tsconfig.build.json --noEmit && tsc -p tsconfig.json --noEmit && tsc -p tsconfig.eslint.json --noEmit && tsc -p tsconfig.js.json --noEmit && tsc -p tsconfig.vitest-typecheck.json --noEmit",
         "typecheck:all": "npm run typecheck",
         "types:update": "typesync",
+        "update-actions": "npx actions-up --yes --style sha",
         "update-deps": "npx ncu -i --install never && npm update --force && npm install --force && npm run sync:peer-prettier-range && npm run sync:node-version-files",
         "verify": "npm run release:verify"
     },
@@ -110,11 +111,11 @@
         "@arethetypeswrong/cli": "^0.18.3",
         "@codecov/bundle-analyzer": "^2.0.1",
         "@microsoft/tsdoc-config": "^0.18.1",
-        "@types/node": "^25.9.2",
+        "@types/node": "^25.9.3",
         "@vitest/coverage-v8": "^4.1.8",
         "cross-env": "^10.1.0",
-        "eslint": "^10.4.1",
-        "eslint-config-nick2bad4u": "^1.2.8",
+        "eslint": "^10.5.0",
+        "eslint-config-nick2bad4u": "^1.2.11",
         "git-cliff": "^2.13.1",
         "gitleaks-config-nick2bad4u": "^1.0.2",
         "npm-check-updates": "^22.2.3",
@@ -135,7 +136,7 @@
     "peerDependencies": {
         "prettier": "^3.0.0 || ^3.8.4"
     },
-    "packageManager": "npm@11.16.0",
+    "packageManager": "npm@11.17.0",
     "engines": {
         "node": ">=22.0.0"
     },

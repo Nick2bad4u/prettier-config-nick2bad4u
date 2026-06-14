@@ -72,53 +72,53 @@ const localConfig = createConfig({
         // },
     ],
 
-    // ------------------------------------------------------------------
-    // Alternative: full manual options block.
-    // If plugin behavior isn't applying correctly with inheritedOverrides,
-    // copy the full options block from the exported presets and paste it
-    // verbatim. This is the most explicit and reliable approach.
-    //
-    // inheritedOverrides: [
-    //     {
-    //         files: "src/shared-config.ts",
-    //         inheritFrom: "*.ts",
-    //         options: {
-    //             endOfLine: "lf",
-    //             jsdocBracketSpacing: false,
-    //             jsdocCapitalizeDescription: true,
-    //             jsdocCommentLineStrategy: "keep",
-    //             jsdocDescriptionTag: false,
-    //             jsdocDescriptionWithDot: false,
-    //             jsdocEmptyCommentStrategy: "keep",
-    //             jsdocKeepUnParseAbleExampleIndent: false,
-    //             jsdocLineWrappingStyle: "greedy",
-    //             jsdocPreferCodeFences: true,
-    //             jsdocPrintWidth: 80,
-    //             jsdocSeparateReturnsFromParam: true,
-    //             jsdocSeparateTagGroups: true,
-    //             jsdocSpaces: 1,
-    //             jsdocVerticalAlignment: false,
-    //             multilineArraysWrapThreshold: 2,
-    //             plugins: [
-    //                 "@softonus/prettier-plugin-duplicate-remover",
-    //                 "prettier-plugin-multiline-arrays",
-    //                 "prettier-plugin-jsdoc",
-    //                 "prettier-plugin-interpolated-html-tags",
-    //                 "prettier-plugin-merge",
-    //             ],
-    //             printWidth: 140, // your override
-    //             tsdoc: true,
-    //             useTabs: false,
-    //         },
-    //     },
-    // ],
+    /* ------------------------------------------------------------------
+    Alternative: full manual options block.
+    If plugin behavior isn't applying correctly with inheritedOverrides,
+    copy the full options block from the exported presets and paste it
+    verbatim. This is the most explicit and reliable approach.
 
-    // ------------------------------------------------------------------
-    // Extensionless file overrides.
-    // Add any filenames with no extension that should be parsed as JSON
-    // or INI. Merged with the package defaults unless you set
-    // replaceDefault* to true.
-    // ------------------------------------------------------------------
+    inheritedOverrides: [
+        {
+            files: "src/shared-config.ts",
+            inheritFrom: "*.ts",
+            options: {
+                endOfLine: "lf",
+                jsdocBracketSpacing: false,
+                jsdocCapitalizeDescription: true,
+                jsdocCommentLineStrategy: "keep",
+                jsdocDescriptionTag: false,
+                jsdocDescriptionWithDot: false,
+                jsdocEmptyCommentStrategy: "keep",
+                jsdocKeepUnParseAbleExampleIndent: false,
+                jsdocLineWrappingStyle: "greedy",
+                jsdocPreferCodeFences: true,
+                jsdocPrintWidth: 80,
+                jsdocSeparateReturnsFromParam: true,
+                jsdocSeparateTagGroups: true,
+                jsdocSpaces: 1,
+                jsdocVerticalAlignment: false,
+                multilineArraysWrapThreshold: 2,
+                plugins: [
+                    "@softonus/prettier-plugin-duplicate-remover",
+                    "prettier-plugin-multiline-arrays",
+                    "prettier-plugin-jsdoc",
+                    "prettier-plugin-interpolated-html-tags",
+                    "prettier-plugin-merge",
+                ],
+                printWidth: 140, // your override
+                tsdoc: true,
+                useTabs: false,
+            },
+        },
+    ], */
+
+    /* ------------------------------------------------------------------
+    Extensionless file overrides.
+    Add any filenames with no extension that should be parsed as JSON
+    or INI. Merged with the package defaults unless you set
+    replaceDefault* to true.
+    ------------------------------------------------------------------ */
 
     // extensionlessJsonFiles: [".babelrc", ".stylelintrc"],
     // extensionlessIniFiles: ["myconfig"],
