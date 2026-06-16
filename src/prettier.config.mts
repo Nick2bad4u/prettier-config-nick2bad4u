@@ -578,15 +578,17 @@ export const createConfig = (
             if (Object.hasOwn(override, "options")) {
                 const inheritedOptions = inheritedSourceOverride.options;
                 const overrideOptions = override.options;
+                const mergedOptions: PluginAwarePrettierOptions = {};
 
-                inheritedOverride.options = {
-                    ...(typeof inheritedOptions === "object"
-                        ? inheritedOptions
-                        : {}),
-                    ...(typeof overrideOptions === "object"
-                        ? overrideOptions
-                        : {}),
-                };
+                if (typeof inheritedOptions === "object") {
+                    Object.assign(mergedOptions, inheritedOptions);
+                }
+
+                if (typeof overrideOptions === "object") {
+                    Object.assign(mergedOptions, overrideOptions);
+                }
+
+                inheritedOverride.options = mergedOptions;
             } else if (Object.hasOwn(inheritedSourceOverride, "options")) {
                 const inheritedOptions = inheritedSourceOverride.options;
 
