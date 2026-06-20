@@ -97,7 +97,7 @@ const formattingFixtureFileNames = [
     "sample.zsh-theme",
 ] as const;
 
-const overrideHasFiles = (
+const hasOverrideFiles = (
     override: PrettierOverride,
     files: readonly string[]
 ) =>
@@ -106,7 +106,7 @@ const overrideHasFiles = (
 
 const findOverrideWithFiles = (files: readonly string[]) =>
     (config.overrides ?? []).find((override) =>
-        overrideHasFiles(override, files)
+        hasOverrideFiles(override, files)
     );
 
 const findOverrideForFile = (file: string) =>

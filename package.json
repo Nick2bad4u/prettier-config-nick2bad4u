@@ -1,159 +1,159 @@
 {
-  "$schema": "https://www.schemastore.org/package.json",
-  "name": "prettier-config-nick2bad4u",
-  "version": "1.0.17",
-  "private": false,
-  "description": "Shared Prettier config for Nick2bad4u projects.",
-  "keywords": [
-    "formatting",
-    "prettier",
-    "prettier-config",
-    "shared-config"
-  ],
-  "homepage": "https://github.com/Nick2bad4u/prettier-config-nick2bad4u#readme",
-  "bugs": {
-    "url": "https://github.com/Nick2bad4u/prettier-config-nick2bad4u/issues",
-    "email": "20943337+Nick2bad4u@users.noreply.github.com"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Nick2bad4u/prettier-config-nick2bad4u.git"
-  },
-  "license": "MIT",
-  "author": "Nick2bad4u <20943337+Nick2bad4u@users.noreply.github.com> (https://github.com/Nick2bad4u)",
-  "contributors": [
-    {
-      "name": "Nick2bad4u",
-      "email": "20943337+Nick2bad4u@users.noreply.github.com",
-      "url": "https://github.com/Nick2bad4u"
-    }
-  ],
-  "sideEffects": false,
-  "type": "module",
-  "exports": {
-    ".": {
-      "types": "./index.d.ts",
-      "import": "./preset.mjs",
-      "require": null
+    "$schema": "https://www.schemastore.org/package.json",
+    "name": "prettier-config-nick2bad4u",
+    "version": "1.0.17",
+    "private": false,
+    "description": "Shared Prettier config for Nick2bad4u projects.",
+    "keywords": [
+        "formatting",
+        "prettier",
+        "prettier-config",
+        "shared-config"
+    ],
+    "homepage": "https://github.com/Nick2bad4u/prettier-config-nick2bad4u#readme",
+    "bugs": {
+        "url": "https://github.com/Nick2bad4u/prettier-config-nick2bad4u/issues",
+        "email": "20943337+Nick2bad4u@users.noreply.github.com"
     },
-    "./package.json": "./package.json"
-  },
-  "main": "./preset.mjs",
-  "types": "./index.d.ts",
-  "files": [
-    "dist",
-    "index.d.ts",
-    "prettier.config.d.mts",
-    "prettier.config.mjs",
-    "preset.mjs"
-  ],
-  "scripts": {
-    "build": "node scripts/clean-build-output.mjs && tsc -p tsconfig.build.json && npx prettier preset.mjs prettier.config.mjs index.d.ts prettier.config.d.mts --write",
-    "changelog:generate": "npx git-cliff --config cliff.toml --output CHANGELOG.md",
-    "changelog:preview": "npx git-cliff --config cliff.toml --unreleased",
-    "changelog:release-notes": "npx git-cliff --config cliff.toml --current --strip all",
-    "coverage": "npx vitest run --coverage",
-    "lint": "npx cross-env NODE_OPTIONS=--max_old_space_size=8192 npx eslint . --cache --cache-strategy content --cache-location .cache/.eslintcache",
-    "lint:all": "npm run lint && npm run typecheck && npm run test && npm run lint:prettier && npm run lint:package && npm run lint:yaml && npm run lint:yamllint && npm run lint:gitleaks && npm run lint:secretlint",
-    "lint:all:fix": "npm run lint:fix && npm run lint:prettier:fix && npm run lint:package:fix && npm run typecheck && npm run test && npm run lint:yaml:fix && npm run lint:secretlint",
-    "lint:attw": "npx attw --pack . --profile esm-only",
-    "lint:fix": "npm run lint -- --fix",
-    "lint:gitleaks": "gitleaks dir --config .gitleaks.toml .",
-    "lint:package": "npm run lint:package-sort && npm run lint:package-json && npm run lint:package-check",
-    "lint:package:fix": "npx sort-package-json package.json",
-    "lint:package-check": "npm run package:check && npm run lint:publint && npm run lint:attw",
-    "lint:package-fix": "npm run lint:package:fix",
-    "lint:package-json": "npx npmPkgJsonLint . --config .npmpackagejsonlintrc.json",
-    "lint:package-sort": "npx sort-package-json --check package.json",
-    "lint:prettier": "npx prettier . --log-level warn --cache --cache-location=.cache/.prettier-cache --cache-strategy=content --check",
-    "lint:prettier:fix": "npx prettier . --log-level warn --cache --cache-location=.cache/.prettier-cache --cache-strategy=content --write",
-    "lint:publint": "npx publint",
-    "lint:secretlint": "npx secretlint --secretlintrc .secretlintrc.cjs --secretlintignore .gitignore \"**/*\"",
-    "lint:yaml": "npx eslint --cache --cache-strategy content --cache-location .cache/.eslintcache \"**/*.{yml,yaml}\"",
-    "lint:yaml:fix": "npm run lint:yaml -- --fix",
-    "lint:yamllint": "yamllint -c .yamllint .",
-    "package:check": "npm run build && npm pack --dry-run --ignore-scripts",
-    "release:check": "npm run release:verify",
-    "release:verify": "npm run build && npm run lint:all:fix && npm run lint:package:fix && npm run test:coverage",
-    "sync:node-version-files": "node scripts/sync-node-version-files.mjs",
-    "sync:peer-prettier-range": "node scripts/sync-peer-prettier-range.mjs",
-    "pretest": "npm run build",
-    "test": "npx vitest run",
-    "test:coverage": "npm run coverage",
-    "typecheck": "npx tsc -p tsconfig.build.json --noEmit && npx tsc -p tsconfig.json --noEmit && npx tsc -p tsconfig.eslint.json --noEmit && npx tsc -p tsconfig.js.json --noEmit && npx tsc -p tsconfig.vitest-typecheck.json --noEmit",
-    "typecheck:all": "npm run typecheck",
-    "types:update": "npx typesync",
-    "update-actions": "npx actions-up --yes --style sha",
-    "update-deps": "npx ncu -i --install never && npm update --force && npm install --force && npm run sync:peer-prettier-range && npm run sync:node-version-files",
-    "verify": "npm run release:verify"
-  },
-  "dependencies": {
-    "@prettier/plugin-php": "^0.25.0",
-    "@prettier/plugin-xml": "^3.4.2",
-    "@softonus/prettier-plugin-duplicate-remover": "^1.1.2",
-    "prettier-plugin-astro": "^0.14.1",
-    "prettier-plugin-codeowners": "^0.1.1",
-    "prettier-plugin-ini": "^1.3.0",
-    "prettier-plugin-interpolated-html-tags": "^2.0.1",
-    "prettier-plugin-jsdoc": "^1.8.1",
-    "prettier-plugin-merge": "^0.10.1",
-    "prettier-plugin-multiline-arrays": "^4.1.9",
-    "prettier-plugin-packagejson": "^3.0.2",
-    "prettier-plugin-powershell": "^2.1.5",
-    "prettier-plugin-properties": "^0.3.1",
-    "prettier-plugin-sh": "^0.18.1",
-    "prettier-plugin-sort-json": "^4.2.0",
-    "prettier-plugin-sql": "^0.20.0",
-    "prettier-plugin-toml": "^2.0.6",
-    "prettier-plugin-yaml": "^1.2.0"
-  },
-  "devDependencies": {
-    "@arethetypeswrong/cli": "^0.18.3",
-    "@microsoft/tsdoc-config": "^0.18.1",
-    "@types/node": "^25.9.3",
-    "@vitest/coverage-v8": "^4.1.9",
-    "cross-env": "^10.1.0",
-    "eslint": "^10.5.0",
-    "eslint-config-nick2bad4u": "^2.0.4",
-    "git-cliff": "^2.13.1",
-    "gitleaks-config-nick2bad4u": "^1.0.2",
-    "npm-check-updates": "^22.2.3",
-    "npm-package-json-lint": "^10.4.1",
-    "npm-package-json-lint-config-nick2bad4u": "^1.0.2",
-    "picocolors": "^1.1.1",
-    "prettier": "^3.8.4",
-    "publint": "^0.3.21",
-    "secretlint": "^13.0.2",
-    "secretlint-config-nick2bad4u": "^1.1.0",
-    "sort-package-json": "^4.0.0",
-    "tsdoc-config-nick2bad4u": "^1.0.4",
-    "typescript": "^6.0.3",
-    "vite": "^8.0.16",
-    "vitest": "^4.1.9",
-    "yamllint-config-nick2bad4u": "^1.0.1"
-  },
-  "peerDependencies": {
-    "prettier": "^3.0.0 || ^3.8.4"
-  },
-  "packageManager": "npm@11.17.0",
-  "engines": {
-    "node": ">=22.0.0"
-  },
-  "devEngines": {
-    "runtime": {
-      "name": "node",
-      "version": ">=22.0.0",
-      "onFail": "error"
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Nick2bad4u/prettier-config-nick2bad4u.git"
     },
-    "packageManager": {
-      "name": "npm",
-      "version": ">=11.0.0",
-      "onFail": "error"
-    }
-  },
-  "publishConfig": {
-    "provenance": true,
-    "registry": "https://registry.npmjs.org/"
-  },
-  "readme": "README.md"
+    "license": "MIT",
+    "author": "Nick2bad4u <20943337+Nick2bad4u@users.noreply.github.com> (https://github.com/Nick2bad4u)",
+    "contributors": [
+        {
+            "name": "Nick2bad4u",
+            "email": "20943337+Nick2bad4u@users.noreply.github.com",
+            "url": "https://github.com/Nick2bad4u"
+        }
+    ],
+    "sideEffects": false,
+    "type": "module",
+    "exports": {
+        ".": {
+            "types": "./index.d.ts",
+            "import": "./preset.mjs",
+            "require": null
+        },
+        "./package.json": "./package.json"
+    },
+    "main": "./preset.mjs",
+    "types": "./index.d.ts",
+    "files": [
+        "dist",
+        "index.d.ts",
+        "prettier.config.d.mts",
+        "prettier.config.mjs",
+        "preset.mjs"
+    ],
+    "scripts": {
+        "build": "node scripts/clean-build-output.mjs && tsc -p tsconfig.build.json && npx prettier preset.mjs prettier.config.mjs index.d.ts prettier.config.d.mts --write",
+        "changelog:generate": "npx git-cliff --config cliff.toml --output CHANGELOG.md",
+        "changelog:preview": "npx git-cliff --config cliff.toml --unreleased",
+        "changelog:release-notes": "npx git-cliff --config cliff.toml --current --strip all",
+        "coverage": "npx vitest run --coverage",
+        "lint": "npx cross-env NODE_OPTIONS=--max_old_space_size=8192 npx eslint . --cache --cache-strategy content --cache-location .cache/.eslintcache",
+        "lint:all": "npm run lint && npm run typecheck && npm run test && npm run lint:prettier && npm run lint:package && npm run lint:yaml && npm run lint:yamllint && npm run lint:gitleaks && npm run lint:secretlint",
+        "lint:all:fix": "npm run lint:fix && npm run lint:prettier:fix && npm run lint:package:fix && npm run typecheck && npm run test && npm run lint:yaml:fix && npm run lint:secretlint",
+        "lint:attw": "npx attw --pack . --profile esm-only",
+        "lint:fix": "npm run lint -- --fix",
+        "lint:gitleaks": "gitleaks dir --config .gitleaks.toml .",
+        "lint:package": "npm run lint:package-sort && npm run lint:package-json && npm run lint:package-check",
+        "lint:package:fix": "npx sort-package-json package.json",
+        "lint:package-check": "npm run package:check && npm run lint:publint && npm run lint:attw",
+        "lint:package-fix": "npm run lint:package:fix",
+        "lint:package-json": "npx npmPkgJsonLint . --config .npmpackagejsonlintrc.json",
+        "lint:package-sort": "npx sort-package-json --check package.json",
+        "lint:prettier": "npx prettier . --log-level warn --cache --cache-location=.cache/.prettier-cache --cache-strategy=content --check",
+        "lint:prettier:fix": "npx prettier . --log-level warn --cache --cache-location=.cache/.prettier-cache --cache-strategy=content --write",
+        "lint:publint": "npx publint",
+        "lint:secretlint": "npx secretlint --secretlintrc .secretlintrc.cjs --secretlintignore .gitignore \"**/*\"",
+        "lint:yaml": "npx eslint --cache --cache-strategy content --cache-location .cache/.eslintcache \"**/*.{yml,yaml}\"",
+        "lint:yaml:fix": "npm run lint:yaml -- --fix",
+        "lint:yamllint": "yamllint -c .yamllint .",
+        "package:check": "npm run build && npm pack --dry-run --ignore-scripts",
+        "release:check": "npm run release:verify",
+        "release:verify": "npm run build && npm run lint:all:fix && npm run lint:package:fix && npm run test:coverage",
+        "sync:node-version-files": "node scripts/sync-node-version-files.mjs",
+        "sync:peer-prettier-range": "node scripts/sync-peer-prettier-range.mjs",
+        "pretest": "npm run build",
+        "test": "npx vitest run",
+        "test:coverage": "npm run coverage",
+        "typecheck": "npx tsc -p tsconfig.build.json --noEmit && npx tsc -p tsconfig.json --noEmit && npx tsc -p tsconfig.eslint.json --noEmit && npx tsc -p tsconfig.js.json --noEmit && npx tsc -p tsconfig.vitest-typecheck.json --noEmit",
+        "typecheck:all": "npm run typecheck",
+        "types:update": "npx typesync",
+        "update-actions": "npx actions-up --yes --style sha",
+        "update-deps": "npx ncu -i --install never && npm update --force && npm install --force && npm run sync:peer-prettier-range && npm run sync:node-version-files",
+        "verify": "npm run release:verify"
+    },
+    "dependencies": {
+        "@prettier/plugin-php": "^0.25.0",
+        "@prettier/plugin-xml": "^3.4.2",
+        "@softonus/prettier-plugin-duplicate-remover": "^1.1.2",
+        "prettier-plugin-astro": "^0.14.1",
+        "prettier-plugin-codeowners": "^0.1.1",
+        "prettier-plugin-ini": "^1.3.0",
+        "prettier-plugin-interpolated-html-tags": "^2.0.1",
+        "prettier-plugin-jsdoc": "^1.8.1",
+        "prettier-plugin-merge": "^0.10.1",
+        "prettier-plugin-multiline-arrays": "^4.1.9",
+        "prettier-plugin-packagejson": "^3.0.2",
+        "prettier-plugin-powershell": "^2.1.5",
+        "prettier-plugin-properties": "^0.3.1",
+        "prettier-plugin-sh": "^0.18.1",
+        "prettier-plugin-sort-json": "^4.2.0",
+        "prettier-plugin-sql": "^0.20.0",
+        "prettier-plugin-toml": "^2.0.6",
+        "prettier-plugin-yaml": "^1.2.0"
+    },
+    "devDependencies": {
+        "@arethetypeswrong/cli": "^0.18.3",
+        "@microsoft/tsdoc-config": "^0.18.1",
+        "@types/node": "^25.9.3",
+        "@vitest/coverage-v8": "^4.1.9",
+        "cross-env": "^10.1.0",
+        "eslint": "^10.5.0",
+        "eslint-config-nick2bad4u": "^2.0.4",
+        "git-cliff": "^2.13.1",
+        "gitleaks-config-nick2bad4u": "^1.0.2",
+        "npm-check-updates": "^22.2.3",
+        "npm-package-json-lint": "^10.4.1",
+        "npm-package-json-lint-config-nick2bad4u": "^1.0.2",
+        "picocolors": "^1.1.1",
+        "prettier": "^3.8.4",
+        "publint": "^0.3.21",
+        "secretlint": "^13.0.2",
+        "secretlint-config-nick2bad4u": "^1.1.0",
+        "sort-package-json": "^4.0.0",
+        "tsdoc-config-nick2bad4u": "^1.0.4",
+        "typescript": "^6.0.3",
+        "vite": "^8.0.16",
+        "vitest": "^4.1.9",
+        "yamllint-config-nick2bad4u": "^1.0.1"
+    },
+    "peerDependencies": {
+        "prettier": "^3.0.0 || ^3.8.4"
+    },
+    "packageManager": "npm@11.17.0",
+    "engines": {
+        "node": ">=22.0.0"
+    },
+    "devEngines": {
+        "runtime": {
+            "name": "node",
+            "version": ">=22.0.0",
+            "onFail": "error"
+        },
+        "packageManager": {
+            "name": "npm",
+            "version": ">=11.0.0",
+            "onFail": "error"
+        }
+    },
+    "publishConfig": {
+        "provenance": true,
+        "registry": "https://registry.npmjs.org/"
+    },
+    "readme": "README.md"
 }
