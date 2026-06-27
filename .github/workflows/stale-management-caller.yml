@@ -51,4 +51,4 @@ jobs:
             contents: "read"
             issues: "write"
             pull-requests: "write"
-        uses: "Nick2bad4u/workflow-templates/.github/workflows/reusable-stale-management.yml@main"
+        uses: "Nick2bad4u/workflow-templates/.github/workflows/reusable-stale-management.yml@25a56cb5ef6a837439e948460fe3685df5392c36"
