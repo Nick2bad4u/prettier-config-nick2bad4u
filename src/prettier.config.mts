@@ -535,7 +535,7 @@ export const createConfig = (
         },
     ];
 
-    /* eslint-disable typefest/prefer-ts-extras-object-has-own, typefest/prefer-ts-extras-set-has -- Avoid adding ts-extras as a runtime dependency for simple built-ins in the published config. */
+    /* eslint-disable typefest/prefer-ts-extras-object-assign, typefest/prefer-ts-extras-object-has-own, typefest/prefer-ts-extras-set-has -- Avoid adding ts-extras as a runtime dependency for simple built-ins in the published config. */
     const inheritedOverridesExpanded: ConfigOverride[] = inheritedOverrides.map(
         (override) => {
             const inheritFromValues = Array.isArray(override.inheritFrom)
@@ -600,7 +600,7 @@ export const createConfig = (
             return inheritedOverride;
         }
     );
-    /* eslint-enable typefest/prefer-ts-extras-object-has-own, typefest/prefer-ts-extras-set-has -- Re-enable runtime-dependency preference rules after inherited override expansion. */
+    /* eslint-enable typefest/prefer-ts-extras-object-assign, typefest/prefer-ts-extras-object-has-own, typefest/prefer-ts-extras-set-has -- Re-enable runtime-dependency preference rules after inherited override expansion. */
 
     return {
         $schema: "https://www.schemastore.org/prettierrc.json",
