@@ -564,14 +564,14 @@ export const createConfig = (
             };
 
             if (Object.hasOwn(override, "excludeFiles")) {
-                const excludeFiles = override.excludeFiles;
+                const excludedFilePatterns = override.excludeFiles;
 
                 if (
-                    typeof excludeFiles === "string" ||
-                    Array.isArray(excludeFiles)
+                    typeof excludedFilePatterns === "string" ||
+                    Array.isArray(excludedFilePatterns)
                 ) {
                     inheritedOverride.excludeFiles =
-                        normalizeOverrideFiles(excludeFiles);
+                        normalizeOverrideFiles(excludedFilePatterns);
                 }
             }
 

@@ -11,6 +11,13 @@ const config = [
         ],
     },
     ...nickTwoBadFourU.configs.all,
+    {
+        files: ["**/*.toml"],
+        rules: {
+            // Tombi 1.1.7 formats the same TOML differently on Windows and Linux.
+            "tombi/tombi": "off",
+        },
+    },
 
     // Add repository-specific config entries below as needed.
 ];
