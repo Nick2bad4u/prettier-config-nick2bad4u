@@ -81,7 +81,7 @@ export const extensionlessJsonOptions: Readonly<PluginAwarePrettierOptions> =
         parser: "json",
         plugins: [
             "prettier-plugin-sort-json",
-            "prettier-plugin-multiline-arrays",
+            "prettier-plugin-multiline-arrays-2",
         ],
         useTabs: false,
     } satisfies PluginAwarePrettierOptions);
@@ -117,7 +117,7 @@ export const typescriptOverrideOptions: Readonly<PluginAwarePrettierOptions> =
         multilineArraysWrapThreshold: 2,
         plugins: [
             "@softonus/prettier-plugin-duplicate-remover",
-            "prettier-plugin-multiline-arrays",
+            "prettier-plugin-multiline-arrays-2",
             "prettier-plugin-jsdoc",
             "prettier-plugin-interpolated-html-tags",
             "prettier-plugin-merge",
@@ -135,7 +135,7 @@ export const jsonOverrideOptions: Readonly<PluginAwarePrettierOptions> =
         multilineArraysWrapThreshold: 2,
         plugins: [
             "prettier-plugin-sort-json",
-            "prettier-plugin-multiline-arrays",
+            "prettier-plugin-multiline-arrays-2",
         ],
         useTabs: false,
     } satisfies PluginAwarePrettierOptions);
@@ -147,7 +147,7 @@ export const packageJsonOverrideOptions: Readonly<PluginAwarePrettierOptions> =
         multilineArraysWrapThreshold: 2,
         plugins: [
             "prettier-plugin-packagejson",
-            "prettier-plugin-multiline-arrays",
+            "prettier-plugin-multiline-arrays-2",
         ],
         tabWidth: 4,
         useTabs: false,

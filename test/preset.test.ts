@@ -334,11 +334,11 @@ describe("prettier-config-nick2bad4u", () => {
         expect(config.plugins).toBeUndefined();
         expect(config["multilineArraysWrapThreshold"]).toBeUndefined();
         expect(jsOverride?.options?.plugins).toContain(
-            "prettier-plugin-multiline-arrays"
+            "prettier-plugin-multiline-arrays-2"
         );
         expect(jsOverride?.options?.["multilineArraysWrapThreshold"]).toBe(2);
         expect(jsonOverride?.options?.plugins).toContain(
-            "prettier-plugin-multiline-arrays"
+            "prettier-plugin-multiline-arrays-2"
         );
         expect(jsonOverride?.options?.["multilineArraysWrapThreshold"]).toBe(2);
         expect(jsonOverride?.excludeFiles).toStrictEqual([
@@ -513,7 +513,7 @@ describe("prettier-config-nick2bad4u", () => {
         expect(inheritedTsFileOverride?.files).toBe("src/shared-config.ts");
         expect(inheritedTsFileOverride?.options?.printWidth).toBe(140);
         expect(inheritedTsFileOverride?.options?.plugins).toContain(
-            "prettier-plugin-multiline-arrays"
+            "prettier-plugin-multiline-arrays-2"
         );
         expect(inheritedTsFileOverride?.options?.plugins).toContain(
             "prettier-plugin-merge"
