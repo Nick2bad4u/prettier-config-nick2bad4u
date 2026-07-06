@@ -219,6 +219,7 @@ export default {
     jsdocSpaces: 1,
     jsdocVerticalAlignment: false,
     multilineArraysWrapThreshold: 2,
+    multilineTypeUnionsWrapThreshold: 2,
     plugins: [
      "@softonus/prettier-plugin-duplicate-remover",
      "prettier-plugin-multiline-arrays-2",

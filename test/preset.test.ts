@@ -267,6 +267,23 @@ describe("prettier-config-nick2bad4u", () => {
         ).resolves.toBe('name: "test"\nenabled: true\ncount: 2\n');
     });
 
+    it("wraps TypeScript unions at the array threshold", async () => {
+        expect.assertions(2);
+
+        expect(
+            typescriptOverrideOptions["multilineTypeUnionsWrapThreshold"]
+        ).toBe(2);
+        await expect(
+            prettier.format("type Supported = string | number | boolean;\n", {
+                ...typescriptOverrideOptions,
+                filepath: "sample.ts",
+                tabWidth: config.tabWidth ?? 4,
+            })
+        ).resolves.toBe(
+            "type Supported =\n    | string\n    | number\n    | boolean;\n"
+        );
+    });
+
     it("exposes expected top-level formatting options", () => {
         expect.assertions(4);
 
@@ -322,7 +339,7 @@ describe("prettier-config-nick2bad4u", () => {
     });
 
     it("configures JavaScript and JSON plugin options only where they add value", () => {
-        expect.assertions(8);
+        expect.assertions(10);
 
         const jsOverride = findOverrideWithFiles(["*.ts", "*.mjs"]);
         const jsonOverride = findOverrideForFile("*.json");
@@ -337,10 +354,16 @@ describe("prettier-config-nick2bad4u", () => {
             "prettier-plugin-multiline-arrays-2"
         );
         expect(jsOverride?.options?.["multilineArraysWrapThreshold"]).toBe(2);
+        expect(jsOverride?.options?.["multilineTypeUnionsWrapThreshold"]).toBe(
+            2
+        );
         expect(jsonOverride?.options?.plugins).toContain(
             "prettier-plugin-multiline-arrays-2"
         );
         expect(jsonOverride?.options?.["multilineArraysWrapThreshold"]).toBe(2);
+        expect(
+            jsonOverride?.options?.["multilineTypeUnionsWrapThreshold"]
+        ).toBeUndefined();
         expect(jsonOverride?.excludeFiles).toStrictEqual([
             "**/package.json",
             "**/package-lock.json",
@@ -493,7 +516,7 @@ describe("prettier-config-nick2bad4u", () => {
     });
 
     it("lets consumers inherit an existing override and customize only deltas", () => {
-        expect.assertions(8);
+        expect.assertions(9);
 
         const inheritedConfig = createConfig({
             inheritedOverrides: [
@@ -520,6 +543,11 @@ describe("prettier-config-nick2bad4u", () => {
         );
         expect(
             inheritedTsFileOverride?.options?.["multilineArraysWrapThreshold"]
+        ).toBe(2);
+        expect(
+            inheritedTsFileOverride?.options?.[
+                "multilineTypeUnionsWrapThreshold"
+            ]
         ).toBe(2);
         expect(inheritedTsFileOverride?.options?.["tsdoc"]).toBe(true);
         expect(inheritedTsFileOverride?.options?.useTabs).toBe(false);
