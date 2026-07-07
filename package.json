@@ -98,7 +98,7 @@
         "prettier-plugin-interpolated-html-tags": "^2.0.1",
         "prettier-plugin-jsdoc": "^1.8.1",
         "prettier-plugin-merge": "^0.10.1",
-        "prettier-plugin-multiline-arrays-2": "^5.1.1",
+        "prettier-plugin-multiline-arrays-2": "^5.1.2",
         "prettier-plugin-packagejson": "^3.0.2",
         "prettier-plugin-powershell": "^2.1.6",
         "prettier-plugin-properties": "^0.3.1",

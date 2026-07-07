@@ -118,9 +118,9 @@ export const typescriptOverrideOptions: Readonly<PluginAwarePrettierOptions> =
         multilineTypeUnionsWrapThreshold: 2,
         plugins: [
             "@softonus/prettier-plugin-duplicate-remover",
-            "prettier-plugin-multiline-arrays-2",
             "prettier-plugin-jsdoc",
             "prettier-plugin-interpolated-html-tags",
+            "prettier-plugin-multiline-arrays-2",
             "prettier-plugin-merge",
         ],
         tsdoc: true,
