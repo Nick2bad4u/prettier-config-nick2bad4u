@@ -114,13 +114,11 @@ jobs:
               with:
                   node-version-file: ".node-version"
                   registry-url: "${{ env.NPM_REGISTRY_URL }}"
-                  cache: "npm"
-                  cache-dependency-path: "package-lock.json"
 
             - name: "Install pinned npm"
               run: |
                   npm_version=$(node -p "require('./package.json').packageManager.split('@').pop()")
-                  npm install --global "npm@${npm_version}"
+                  (cd "${RUNNER_TEMP}" && npm install --global "npm@${npm_version}")
                   test "$(npm --version)" = "$npm_version"
 
             - name: "Install dependencies"
