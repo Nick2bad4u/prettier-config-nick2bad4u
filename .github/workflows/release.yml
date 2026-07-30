@@ -122,7 +122,7 @@ jobs:
                   test "$(npm --version)" = "$npm_version"
 
             - name: "Install dependencies"
-              run: "npm ci"
+              run: "npm ci --ignore-scripts"
 
             - name: "Configure Git for release automation"
               if: "github.event_name == 'workflow_dispatch'"
