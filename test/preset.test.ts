@@ -38,6 +38,15 @@ const fixtureDirectoryPath = fileURLToPath(
 const generatedPrettierConfigPath = fileURLToPath(
     new URL("../prettier.config.mjs", import.meta.url)
 );
+const packageJsonPath = fileURLToPath(
+    new URL("../package.json", import.meta.url)
+);
+const multilineArraysPackageJsonPath = fileURLToPath(
+    new URL(
+        "../node_modules/prettier-plugin-multiline-arrays-2/package.json",
+        import.meta.url
+    )
+);
 
 const formattingFixtureFileNames = [
     ".all-contributorsrc",
@@ -113,6 +122,31 @@ const findOverrideForFile = (file: string) =>
     (config.overrides ?? []).find((override) => override.files === file);
 
 describe("prettier-config-nick2bad4u", () => {
+    it("keeps the multiline-arrays Prettier contract aligned", async () => {
+        expect.assertions(2);
+
+        const multilineArraysPackageJson: unknown = JSON.parse(
+            await readFile(multilineArraysPackageJsonPath, "utf8")
+        );
+        const packageJson: unknown = JSON.parse(
+            await readFile(packageJsonPath, "utf8")
+        );
+
+        expect(packageJson).toMatchObject({
+            dependencies: {
+                "prettier-plugin-multiline-arrays-2": "^6.0.0",
+            },
+            peerDependencies: {
+                prettier: "^3.9.0",
+            },
+        });
+        expect(multilineArraysPackageJson).toMatchObject({
+            peerDependencies: {
+                prettier: "^3.9.0",
+            },
+        });
+    });
+
     it("exports the same config as default and named export", () => {
         expect.assertions(2);
 

@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 
 /**
- * Keep `peerDependencies.prettier` aligned with the currently installed
- * `devDependencies.prettier` upper range.
+ * Keep `peerDependencies.prettier` aligned with the minimum Prettier version
+ * required by the runtime plugins in this shared config.
  *
- * Why: npm does not support `$prettier` indirection in `peerDependencies` (that
- * syntax is supported for `overrides` only), so we synchronize the top-end
- * range explicitly after dependency updates.
+ * `prettier-plugin-multiline-arrays-2` v6 requires Prettier ^3.9.0. The
+ * development dependency may use a newer compatible patch without narrowing the
+ * public peer contract to that patch.
  */
 
 import { readFile, writeFile } from "node:fs/promises";
@@ -28,17 +28,11 @@ const packageJsonPath = fileURLToPath(
     new URL("../package.json", import.meta.url)
 );
 /**
- * The minimum supported range for prettier in peer dependencies. This is used
- * as a fallback when the existing peer range is not a valid string or cannot be
- * parsed to determine a floor candidate. This ensures that the peer dependency
- * range does not fall below a certain baseline, which is important for
- * maintaining compatibility with supported versions of prettier.
+ * The minimum supported range for Prettier in peer dependencies.
  *
  * @type {string}
- *
- * @see resolvePeerFloorRange
  */
-const minimumSupportedPrettierRange = "^3.0.0";
+const minimumSupportedPrettierRange = "^3.9.0";
 
 /**
  * Read and parse package.json.
@@ -67,34 +61,6 @@ const readPackageJson = async () => {
             { cause: error }
         );
     }
-};
-
-/**
- * Resolve a floor range from an existing peer range when possible. Falls back
- * to repository baseline.
- *
- * @type {(existingPeerRange: unknown) => string}
- *
- * @param {unknown} existingPeerRange
- *
- * @returns {string}
- */
-const resolvePeerFloorRange = (existingPeerRange) => {
-    if (typeof existingPeerRange !== "string") {
-        return minimumSupportedPrettierRange;
-    }
-
-    /** @type {string[]} */
-    const [floorCandidate] = existingPeerRange
-        .split("||")
-        .map((part) => part.trim());
-
-    if (!floorCandidate) {
-        return minimumSupportedPrettierRange;
-    }
-
-    /** @type {string} */
-    return floorCandidate;
 };
 
 /**
@@ -140,9 +106,7 @@ const main = async () => {
     }
 
     /** @type {string} */
-    const peerFloorRange = resolvePeerFloorRange(peerDependencies["prettier"]);
-    /** @type {string} */
-    const nextPeerPrettierRange = `${peerFloorRange} || ${devDependencyPrettierRange}`;
+    const nextPeerPrettierRange = minimumSupportedPrettierRange;
 
     /** @type {string} */
     if (peerDependencies["prettier"] === nextPeerPrettierRange) {
@@ -193,7 +157,6 @@ const main = async () => {
  * @see writeFile
  * @see readPackageJson
  * @see isRecord
- * @see resolvePeerFloorRange
  * @see main
  */
 try {
