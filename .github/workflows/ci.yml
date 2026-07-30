@@ -75,14 +75,6 @@ jobs:
                     exit 1
                   fi
 
-            - name: "Upload bundle analysis to Codecov"
-              if: "${{ matrix.os == 'ubuntu-latest' && !cancelled() }}"
-              continue-on-error: true
-              run: "npx @codecov/bundle-analyzer ./dist --bundle-name=${{ github.event.repository.name }}"
-              env:
-                  GITHUB_SHA: "${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}"
-                  GITHUB_REF: "${{ github.event_name == 'pull_request' && format('refs/heads/{0}', github.head_ref) || github.ref }}"
-
             - name: "Typecheck"
               run: "npm run typecheck"
 
