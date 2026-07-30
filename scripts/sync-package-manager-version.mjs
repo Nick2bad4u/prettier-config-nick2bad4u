@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
 /**
- * Keep `devEngines.packageManager` aligned with the exact npm version declared
- * by the root `packageManager` field.
+ * Keep `devEngines.packageManager` aligned with the npm major version declared
+ * by the root's exact `packageManager` field.
  */
 
 import { readFile, writeFile } from "node:fs/promises";
@@ -12,7 +12,7 @@ const packageJsonPath = fileURLToPath(
     new URL("../package.json", import.meta.url)
 );
 const packageManagerPattern =
-    /^npm@(?<version>(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)(?:-[0-9A-Za-z.-]+)?)$/u;
+    /^npm@(?<version>(?<major>0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)(?:-[0-9A-Za-z.-]+)?)$/u;
 
 /**
  * @param {unknown} value
@@ -67,8 +67,9 @@ const main = async () => {
 
     const match = packageManagerPattern.exec(packageManager);
     const npmVersion = match?.groups?.["version"];
+    const npmMajorVersion = match?.groups?.["major"];
 
-    if (!npmVersion) {
+    if (!npmVersion || !npmMajorVersion) {
         throw new TypeError(
             `Expected package.json packageManager to be an exact npm version such as npm@12.0.2; received ${JSON.stringify(packageManager)}`
         );
@@ -85,7 +86,7 @@ const main = async () => {
     const existingPackageManager = devEngines["packageManager"];
     const expectedPackageManager = {
         name: "npm",
-        version: npmVersion,
+        version: npmMajorVersion,
         onFail: "error",
     };
     const aligned =
@@ -96,14 +97,14 @@ const main = async () => {
 
     if (aligned) {
         console.log(
-            `devEngines.packageManager already aligned with packageManager: npm@${npmVersion}`
+            `devEngines.packageManager already aligned with packageManager major: npm ${npmMajorVersion}`
         );
         return;
     }
 
     if (check) {
         throw new TypeError(
-            `devEngines.packageManager is out of sync with packageManager. Run "npm run sync:package-manager-version" to set it to npm@${npmVersion}.`
+            `devEngines.packageManager is out of sync with the packageManager major. Run "npm run sync:package-manager-version" to set it to npm ${npmMajorVersion}.`
         );
     }
 
@@ -116,7 +117,7 @@ const main = async () => {
             "utf8"
         );
         console.log(
-            `Updated devEngines.packageManager to match packageManager: npm@${npmVersion}`
+            `Updated devEngines.packageManager to match packageManager major: npm ${npmMajorVersion}`
         );
     } catch (error) {
         const message = error instanceof Error ? error.message : String(error);
