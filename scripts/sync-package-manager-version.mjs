@@ -83,15 +83,10 @@ const main = async () => {
     }
 
     const existingPackageManager = devEngines["packageManager"];
-    const onFail =
-        isRecord(existingPackageManager) &&
-        typeof existingPackageManager["onFail"] === "string"
-            ? existingPackageManager["onFail"]
-            : "error";
     const expectedPackageManager = {
         name: "npm",
         version: npmVersion,
-        onFail,
+        onFail: "error",
     };
     const aligned =
         isRecord(existingPackageManager) &&
