@@ -1,3 +1,11 @@
 {
-    "extends": "npm-package-json-lint-config-nick2bad4u"
+    "extends": "npm-package-json-lint-config-nick2bad4u",
+    "rules": {
+        "prefer-caret-version-dependencies": [
+            "error",
+            {
+                "exceptions": ["prettier-plugin-yaml"]
+            }
+        ]
+    }
 }
