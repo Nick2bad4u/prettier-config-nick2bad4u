@@ -119,7 +119,7 @@
         "prettier-plugin-sort-json": "^4.2.0",
         "prettier-plugin-sql": "^0.20.0",
         "prettier-plugin-toml": "^2.0.6",
-        "prettier-plugin-yaml": "^1.2.0"
+        "prettier-plugin-yaml": ">=1.2.0 <1.3.0"
     },
     "devDependencies": {
         "@arethetypeswrong/cli": "^0.18.5",

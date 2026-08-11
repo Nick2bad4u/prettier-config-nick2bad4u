@@ -301,6 +301,35 @@ describe("prettier-config-nick2bad4u", () => {
         ).resolves.toBe('name: "test"\nenabled: true\ncount: 2\n');
     });
 
+    it("preserves YAML literal blocks while quoting scalar strings", async () => {
+        expect.assertions(3);
+
+        const packageJson: unknown = JSON.parse(
+            await readFile(packageJsonPath, "utf8")
+        );
+        const expected = 'name: "test"\nrun: |\n    npm run build\n';
+        const formatted = await prettier.format(
+            "name: test\nrun: |\n    npm run build\n",
+            {
+                ...yamlOverrideOptions,
+                filepath: "workflow.yml",
+            }
+        );
+
+        expect(packageJson).toMatchObject({
+            dependencies: {
+                "prettier-plugin-yaml": ">=1.2.0 <1.3.0",
+            },
+        });
+        expect(formatted).toBe(expected);
+        await expect(
+            prettier.format(formatted, {
+                ...yamlOverrideOptions,
+                filepath: "workflow.yml",
+            })
+        ).resolves.toBe(expected);
+    });
+
     it("wraps TypeScript unions at the array threshold", async () => {
         expect.assertions(2);
 
