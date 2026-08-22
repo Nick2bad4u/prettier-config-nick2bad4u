@@ -39,8 +39,14 @@ export type InheritedOverrideConfig = InternalInheritedOverrideConfig;
 
 type PublicPrettierOptions = Readonly<Partial<Config>>;
 
-/** Named export — use when you want to spread or inspect individual options. */
-export const config: Readonly<Config> = Object.freeze(sharedPrettierConfig);
+/**
+ * Named export — use when you want to spread or inspect individual options.
+ *
+ * Keep the top-level object mutable at runtime because Prettier removes
+ * metadata such as `$schema` while loading a shared configuration. The readonly
+ * type still prevents accidental consumer-side mutation at compile time.
+ */
+export const config: Readonly<Config> = { ...sharedPrettierConfig };
 
 /**
  * Build a config with merged/replaced extensionless JSON/INI override globs.

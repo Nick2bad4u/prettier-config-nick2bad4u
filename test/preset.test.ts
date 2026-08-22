@@ -1,3 +1,4 @@
+import { execFileSync } from "node:child_process";
 import { readdir, readFile } from "node:fs/promises";
 import * as path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -38,8 +39,14 @@ const fixtureDirectoryPath = fileURLToPath(
 const generatedPrettierConfigPath = fileURLToPath(
     new URL("../prettier.config.mjs", import.meta.url)
 );
+const generatedPackageEntrypointPath = fileURLToPath(
+    new URL("../preset.mjs", import.meta.url)
+);
 const packageJsonPath = fileURLToPath(
     new URL("../package.json", import.meta.url)
+);
+const prettierCliPath = fileURLToPath(
+    new URL("../node_modules/prettier/bin/prettier.cjs", import.meta.url)
 );
 const multilineArraysPackageJsonPath = fileURLToPath(
     new URL(
@@ -153,6 +160,28 @@ describe("prettier-config-nick2bad4u", () => {
 
         expect(prettierConfig).toBe(config);
         expect(createConfig()).toStrictEqual(config);
+    });
+
+    it("loads the public package entrypoint through the Prettier CLI", () => {
+        expect.assertions(1);
+
+        const fixturePath = path.join(fixtureDirectoryPath, "sample.ps1");
+        const stdout = execFileSync(
+            process.execPath,
+            [
+                prettierCliPath,
+                "--config",
+                generatedPackageEntrypointPath,
+                "--check",
+                fixturePath,
+            ],
+            {
+                cwd: path.dirname(packageJsonPath),
+                encoding: "utf8",
+            }
+        );
+
+        expect(stdout).toContain("All matched files use Prettier code style!");
     });
 
     it("exports reusable extensionless file defaults", () => {
