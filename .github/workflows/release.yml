@@ -74,7 +74,7 @@ jobs:
 
         steps:
             - name: "Harden the runner (Audit all outbound calls)"
-              uses: "step-security/harden-runner@bf7454d06d71f1098171f2acdf0cd4708d7b5920" # v2.20.0
+              uses: "step-security/harden-runner@05e31511f85b41b11d1cf0ef85d0992719546e2c" # v2.21.0
               with:
                   egress-policy: "audit"
 
@@ -181,11 +181,10 @@ jobs:
               run: "npm run release:check"
 
             - name: "Ensure verification did not modify tracked files"
-              if: "startsWith(github.ref, 'refs/tags/v')"
               run: |
                   set -euo pipefail
                   if ! git diff --quiet || ! git diff --cached --quiet; then
-                    echo "release:check modified files on a tag-triggered release. Ensure main is clean before tagging." >&2
+                    echo "release:check modified tracked files. Fix or commit the generated drift before releasing." >&2
                     git status --short
                     exit 1
                   fi
@@ -265,9 +264,40 @@ jobs:
                     exit 1
                   fi
 
-                  git add -A
+                  git add -- package.json package-lock.json
                   if git diff --cached --quiet; then
                     echo "No staged changes found for release commit." >&2
+                    exit 1
+                  fi
+
+                  while IFS= read -r staged_path; do
+                    case "$staged_path" in
+                      package.json|package-lock.json)
+                        ;;
+                      *)
+                        echo "Unexpected staged release path: $staged_path" >&2
+                        exit 1
+                        ;;
+                    esac
+                  done < <(git diff --cached --name-only)
+
+                  for expected_path in package.json package-lock.json; do
+                    if ! git diff --cached --name-only -- "$expected_path" | grep -Fxq "$expected_path"; then
+                      echo "Expected release version file was not staged: $expected_path" >&2
+                      exit 1
+                    fi
+                  done
+
+                  if ! git diff --quiet; then
+                    echo "Unexpected unstaged tracked changes remain after staging release version files." >&2
+                    git status --short
+                    exit 1
+                  fi
+
+                  untracked_paths=$(git ls-files --others --exclude-standard)
+                  if [ -n "$untracked_paths" ]; then
+                    echo "Unexpected untracked files remain before the release commit:" >&2
+                    printf '%s\n' "$untracked_paths" >&2
                     exit 1
                   fi
 
