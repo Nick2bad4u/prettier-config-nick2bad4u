@@ -104,6 +104,7 @@ const formattingFixtureFileNames = [
     "sample.yml",
     "sample.zsh",
     "sample.zsh-theme",
+    "tsconfig.json",
 ] as const;
 
 const hasOverrideFiles = (
@@ -134,7 +135,7 @@ describe("prettier-config-nick2bad4u", () => {
 
         expect(packageJson).toMatchObject({
             dependencies: {
-                "prettier-plugin-multiline-arrays-2": "^6.0.0",
+                "prettier-plugin-multiline-arrays-2": "^6.0.2",
             },
             peerDependencies: {
                 prettier: "^3.9.0",
@@ -357,7 +358,7 @@ describe("prettier-config-nick2bad4u", () => {
     });
 
     it("contains plugin-backed overrides for common file types", () => {
-        expect.assertions(12);
+        expect.assertions(13);
 
         const overrideFiles = (config.overrides ?? []).map((override) =>
             JSON.stringify(override.files)
@@ -369,6 +370,9 @@ describe("prettier-config-nick2bad4u", () => {
         expect(overrideFiles.some((files) => files.includes("*.json"))).toBe(
             true
         );
+        expect(
+            overrideFiles.some((files) => files.includes("tsconfig.*"))
+        ).toBe(true);
         expect(overrideFiles.some((files) => files.includes("*.toml"))).toBe(
             true
         );
@@ -438,7 +442,7 @@ describe("prettier-config-nick2bad4u", () => {
     });
 
     it("keeps formatting fixtures idempotent for every supported file family", async () => {
-        expect.assertions(56);
+        expect.assertions(57);
 
         const actualFixtureFileNames = await readdir(fixtureDirectoryPath);
 

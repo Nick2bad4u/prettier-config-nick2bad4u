@@ -1,0 +1,8 @@
+{
+    "compilerOptions": {
+        "module": "NodeNext",
+        "strict": true,
+        "target": "ESNext"
+    },
+    "include": ["src/**/*.ts", "test/**/*.ts"]
+}
