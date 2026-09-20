@@ -1,5 +1,20 @@
 ---
 const title = "Sample";
+const showDetails = true;
 ---
 
-<h1>{title}</h1>
+<section>
+    <!-- Keep the heading and conditional details together. -->
+    <h1>{title}</h1>
+    {showDetails && (
+        <p>
+            Read <strong>{title}</strong> details.
+        </p>
+    )}
+</section>
+
+<style>
+    section {
+        color: rebeccapurple;
+    }
+</style>

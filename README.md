@@ -12,7 +12,42 @@ npm install --save-dev prettier prettier-config-nick2bad4u
 
 This package ships the Prettier plugins used by the config, so consumers only need `prettier` plus this package.
 
+Requires Node.js `>=22.18.0` and Prettier `^3.9.0`.
+
 The package is ESM-first and exports the config from `preset.mjs`.
+
+### Upgrading from v2 to v3
+
+Version 3 upgrades `prettier-plugin-astro` to v1, which uses Astro 7's Rust compiler
+and changes Astro whitespace formatting. The minimum Node.js version increases
+from `22.0.0` to `22.18.0` to satisfy the runtime plugins; the Prettier peer range
+remains `^3.9.0`.
+Review formatting changes in `.astro` files when upgrading.
+
+The Astro plugin defaults `astroCompressHTML` to `"jsx"`. If your Astro project
+sets `compressHTML`, match that value in the Astro override so formatting
+preserves the whitespace your compiler renders. For example, for
+`compressHTML: "html"` (or `true`):
+
+```js
+import { createConfig } from "prettier-config-nick2bad4u";
+
+export default createConfig({
+ inheritedOverrides: [
+  {
+   inheritFrom: "*.astro",
+   files: "*.astro",
+   options: {
+    astroCompressHTML: "html",
+   },
+  },
+ ],
+});
+```
+
+Use `"none"` for `compressHTML: false`, or `"jsx"` for Astro 7's default.
+See the [Astro plugin v1 release notes](https://github.com/withastro/prettier-plugin-astro/releases/tag/v1.0.0)
+for the compiler and whitespace changes.
 
 ## Usage
 

@@ -320,6 +320,47 @@ describe("prettier-config-nick2bad4u", () => {
         ).resolves.toBe("<h1>{title}</h1>\n");
     });
 
+    it.each([
+        ["html", "<p>Hello <strong>world</strong></p>\n"],
+        ["jsx", "<p>\n    Hello\n    <strong>world</strong>\n</p>\n"],
+        ["none", "<p>Hello <strong>world</strong></p>\n"],
+    ])(
+        "inherits Astro options with %s whitespace handling",
+        async (mode, expected) => {
+            expect.assertions(3);
+
+            const customizedConfig = createConfig({
+                inheritedOverrides: [
+                    {
+                        files: "*.astro",
+                        inheritFrom: "*.astro",
+                        options: {
+                            astroCompressHTML: mode,
+                        },
+                    },
+                ],
+            });
+            const options = {
+                ...customizedConfig.overrides?.at(-1)?.options,
+                filepath: "sample.astro",
+            };
+            const formatted = await prettier.format(
+                "<p>Hello\n<strong>world</strong></p>\n",
+                options
+            );
+
+            expect(options).toMatchObject({
+                astroCompressHTML: mode,
+                parser: "astro",
+                plugins: ["prettier-plugin-astro"],
+            });
+            expect(formatted).toBe(expected);
+            await expect(prettier.format(formatted, options)).resolves.toBe(
+                expected
+            );
+        }
+    );
+
     it("formats YAML with quoted keys and string values", async () => {
         expect.assertions(1);
 
